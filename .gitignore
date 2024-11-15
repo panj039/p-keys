@@ -8,9 +8,6 @@
 # 忽略调试信息文件 (.pdb)
 *.pdb
 
-# 忽略配置文件，如果它包含环境相关的敏感信息
-*.config
-
 # 忽略 Visual Studio 自动生成的文件
 *.Designer.cs
 *.resx
