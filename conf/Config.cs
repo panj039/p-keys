@@ -1,12 +1,10 @@
-﻿using P_Keys.conf;
+﻿using Newtonsoft.Json;
+using P_Keys.conf;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using Newtonsoft.Json;
-using WindowsInput.Native;
-using System.Collections;
 using System.Windows.Forms;
-using System.Globalization;
+using WindowsInput.Native;
 
 namespace P_Keys
 {
@@ -118,7 +116,9 @@ namespace P_Keys
 
             if (!File.Exists(configPath))
             {
+                MessageBox.Show($"没有找到配置文件: {configPath}", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Console.WriteLine($"The config file [{configPath}] was not found.");
+                Application.Exit();
                 return;
             }
 
