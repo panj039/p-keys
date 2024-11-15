@@ -1,19 +1,15 @@
 ﻿using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace P_Keys.conf
 {
     internal class KeysGroup
     {
-        public string Group {  get; set; }
+        public string Group { get; set; }
         public List<KeysData> Keys { get; set; }
         [JsonIgnore]
-        public Dictionary<char, KeysData> DKeys = new Dictionary<char, KeysData>();
+        public Dictionary<string, KeysData> DKeys = new Dictionary<string, KeysData>();
 
         public void Tidy()
         {
@@ -28,7 +24,7 @@ namespace P_Keys.conf
         {
             try
             {
-                char cKey = Config.GetCharFromKey(key);
+                string cKey = Config.GetCharFromKey(key);
                 if (DKeys.TryGetValue(cKey, out KeysData value))
                 {
                     return value;

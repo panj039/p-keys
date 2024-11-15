@@ -6,7 +6,6 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using WindowsInput;
 using WindowsInput.Native;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace P_Keys
 {
@@ -84,7 +83,17 @@ namespace P_Keys
                             VirtualKeyCode vkc = VirtualKeyCode.LBUTTON;
                             if (link.GetVirtualKeyCode(ref vkc))
                             {
-                                m_simulator.Keyboard.KeyPress(vkc);
+                                m_simulator.Keyboard.KeyDown(vkc);
+                                //m_simulator.Keyboard.KeyPress(vkc);
+                            }
+                        }
+                        for (int i = keysData.Links.Count - 1; i >= 0; i--)
+                        {
+                            var link = keysData.Links[i];
+                            VirtualKeyCode vkc = VirtualKeyCode.LBUTTON;
+                            if (link.GetVirtualKeyCode(ref vkc))
+                            {
+                                m_simulator.Keyboard.KeyUp(vkc);
                             }
                         }
                         return (IntPtr)1; // 阻止继续传递此事件
