@@ -10,7 +10,6 @@
 
 # 忽略 Visual Studio 自动生成的文件
 *.Designer.cs
-*.resx
 
 # 忽略临时文件
 *.tmp
