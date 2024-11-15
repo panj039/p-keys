@@ -6,16 +6,25 @@ using Newtonsoft.Json;
 using WindowsInput.Native;
 using System.Collections;
 using System.Windows.Forms;
+using System.Globalization;
 
 namespace P_Keys
 {
+    internal class ConfigData
+    {
+        public char HotKey = '`';
+        public List<KeysGroup> Groups = new List<KeysGroup>();
+    }
+
     internal class Config
     {
+        public static Keys HotKey;
         public static List<KeysGroup> Groups = new List<KeysGroup>();
         public static Dictionary<string, KeysGroup> DGroups = new Dictionary<string, KeysGroup>();
         private static readonly string Assets = "assets";
         private static readonly string ConfigName = "config.json";
         private static readonly Dictionary<char, VirtualKeyCode> CharsToVirtualKeyCode = new Dictionary<char, VirtualKeyCode> {
+            {'`', VirtualKeyCode.OEM_3},
             {'a', VirtualKeyCode.VK_A},
             {'b', VirtualKeyCode.VK_B},
             {'c', VirtualKeyCode.VK_C},
@@ -55,6 +64,7 @@ namespace P_Keys
         };
         private static readonly Dictionary<Keys, char> KeysToChar = new Dictionary<Keys, char>
         {
+            { Keys.Oemtilde, '`' },
             { Keys.A, 'A' },
             { Keys.B, 'B' },
             { Keys.C, 'C' },
@@ -115,7 +125,9 @@ namespace P_Keys
             try
             {
                 string jsonContent = File.ReadAllText(configPath);
-                Groups = JsonConvert.DeserializeObject<List<KeysGroup>>(jsonContent);
+                var configData = JsonConvert.DeserializeObject<ConfigData>(jsonContent);
+                HotKey = GetKeyFromChar(configData.HotKey);
+                Groups = configData.Groups;
 
                 DGroups.Clear();
                 foreach (KeysGroup keyGroup in Groups)
@@ -145,7 +157,10 @@ namespace P_Keys
                 Directory.CreateDirectory(assetsDirectory);
             }
 
-            string jsonContent = JsonConvert.SerializeObject(Groups, Formatting.Indented);
+            var configData = new ConfigData();
+            configData.HotKey = GetCharFromKey(HotKey);
+            configData.Groups = Groups;
+            string jsonContent = JsonConvert.SerializeObject(configData, Formatting.Indented);
 
             try
             {
@@ -181,6 +196,17 @@ namespace P_Keys
             {
                 throw new ArgumentException("Key does not have a corresponding character", nameof(key));
             }
+        }
+
+        public static Keys GetKeyFromChar(char c)
+        {
+            c = char.ToLower(c);
+            foreach (var kvp in KeysToChar)
+            {
+                if (char.ToLower(kvp.Value) == c)
+                    return kvp.Key;
+            }
+            return Keys.Oemtilde;
         }
 
         private static string GetConfigPath()

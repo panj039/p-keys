@@ -14,9 +14,9 @@ namespace P_Keys
     {
         private const int WH_KEYBOARD_LL = 13; // 低级键盘钩子
         private const int WM_KEYDOWN = 0x0100; // 键盘按下事件
-        private IntPtr hookId = IntPtr.Zero;
-        private InputSimulator simulator = new InputSimulator();
-        private bool isFunctionEnabled = false;
+        private IntPtr m_hookId = IntPtr.Zero;
+        private InputSimulator m_simulator = new InputSimulator();
+        private bool m_isFunctionEnabled = false;
         private KeysGroup m_curKeysGroup;
         private List<Control> m_curUIKeysData = new List<Control>();
 
@@ -25,12 +25,12 @@ namespace P_Keys
             InitializeComponent();
             this.Text = "按键模拟器";
             this.Size = new System.Drawing.Size(300, 300);
-            this.FormClosing += (s, e) => UnhookWindowsHookEx(hookId);
-            hookId = SetHook(HookCallback);
+            this.FormClosing += (s, e) => UnhookWindowsHookEx(m_hookId);
+            m_hookId = SetHook(HookCallback);
 
             Config.Load();
 
-            initComponent();
+            InitComponent();
         }
 
         // Windows API
@@ -65,16 +65,16 @@ namespace P_Keys
             {
                 Keys key = (Keys)Marshal.ReadInt32(lParam);
 
-                // 按下反引号(`)键开启/关闭功能
-                if (key == Keys.Oemtilde) // 反引号键
+                // 按下热键(默认`)键开启/关闭功能
+                if (key == Config.HotKey) // 反引号键 Keys.Oemtilde
                 {
-                    isFunctionEnabled = !isFunctionEnabled;
+                    m_isFunctionEnabled = !m_isFunctionEnabled;
                     UpdateStatusLabel();
                     return (IntPtr)1;  // 返回1，表示此事件已被处理
                 }
 
-                // 如果按键映射启用，按下 Z 键时模拟 X 和 C 键
-                if (isFunctionEnabled)
+                // 如果按键映射启用，按下指定键时模拟后续按键组合
+                if (m_isFunctionEnabled)
                 {
                     var keysData = m_curKeysGroup.GetKeysData(key);
                     if (keysData != null)
@@ -84,7 +84,7 @@ namespace P_Keys
                             VirtualKeyCode vkc = VirtualKeyCode.LBUTTON;
                             if (link.GetVirtualKeyCode(ref vkc))
                             {
-                                simulator.Keyboard.KeyPress(vkc);
+                                m_simulator.Keyboard.KeyPress(vkc);
                             }
                         }
                         return (IntPtr)1; // 阻止继续传递此事件
@@ -92,13 +92,13 @@ namespace P_Keys
                 }
             }
 
-            return CallNextHookEx(hookId, nCode, wParam, lParam);
+            return CallNextHookEx(m_hookId, nCode, wParam, lParam);
         }
 
         // 更新状态标签
         private void UpdateStatusLabel()
         {
-            this.Text = isFunctionEnabled ? "按键映射已启用" : "按键映射已禁用";
+            this.Text = m_isFunctionEnabled ? "按键映射已启用" : "按键映射已禁用";
         }
 
         // 窗口加载时，初始化状态
@@ -108,8 +108,11 @@ namespace P_Keys
             UpdateStatusLabel();
         }
 
-        private void initComponent()
+        private void InitComponent()
         {
+            // ui_tex_hotkey
+            ui_tex_hotkey.Text = $"Hotkey: {Config.GetCharFromKey(Config.HotKey)}";
+
             // ui_com_group
             ui_com_group.DropDownStyle = ComboBoxStyle.DropDown;
             ui_com_group.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
@@ -118,19 +121,16 @@ namespace P_Keys
             ui_com_group.DataSource = Config.Groups;
             ui_com_group.DisplayMember = "Group";
             ui_com_group.ValueMember = "Group";
-            ui_com_group.SelectedIndexChanged += on_ui_com_group;
+            ui_com_group.SelectedIndexChanged += OnUIComGroup;
 
             if (Config.Groups.Count > 0)
             {
                 ui_com_group.SelectedIndex = 0;
-                on_ui_com_group(ui_com_group, EventArgs.Empty);
+                OnUIComGroup(ui_com_group, EventArgs.Empty);
             }
-
-            // position and size
-            this.Resize += new EventHandler(on_p_keys_resize);
         }
 
-        private void on_ui_com_group(object sender, EventArgs e)
+        private void OnUIComGroup(object sender, EventArgs e)
         {
             foreach (Control control in m_curUIKeysData)
             {
@@ -152,12 +152,6 @@ namespace P_Keys
                 ui_flow_layout_panel.Controls.Add(ui);
                 m_curUIKeysData.Add(ui);
             }
-        }
-
-        private void on_p_keys_resize(object sender, EventArgs e)
-        {
-            int formWidth = this.ClientSize.Width;
-            int formHeight = this.ClientSize.Height;
         }
     }
 }
