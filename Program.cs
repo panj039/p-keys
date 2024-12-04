@@ -16,7 +16,7 @@ namespace P_Keys
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new P_Keys());
+            Application.Run(new UIPKeys());
         }
     }
 }

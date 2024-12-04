@@ -2,6 +2,7 @@
 using P_Keys.conf;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 using WindowsInput.Native;
@@ -19,6 +20,13 @@ namespace P_Keys
         public static Keys HotKey;
         public static List<KeysGroup> Groups = new List<KeysGroup>();
         public static Dictionary<string, KeysGroup> DGroups = new Dictionary<string, KeysGroup>();
+        public static readonly string AppName = "P-Keys";
+        public static readonly string HelpAbortInfo = @"P-Keys
+
+Author: Pan
+Version: 0.0.1
+Date: 2024-12-04 14:07
+Repository: https://github.com/panj039/p-keys.git";
         private static readonly string Assets = "assets";
         private static readonly string ConfigName = "config.json";
         private static readonly Dictionary<string, VirtualKeyCode> CharsToVirtualKeyCode = new Dictionary<string, VirtualKeyCode> {
@@ -132,18 +140,11 @@ namespace P_Keys
         };
         public static void Load()
         {
-            string configPath = GetConfigPath();
-
-            if (!File.Exists(configPath))
-            {
-                MessageBox.Show($"没有找到配置文件: {configPath}", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Console.WriteLine($"The config file [{configPath}] was not found.");
-                Application.Exit();
-                return;
-            }
-
             try
             {
+                TryCreateConfig();
+
+                string configPath = GetConfigPath();
                 string jsonContent = File.ReadAllText(configPath);
                 var configData = JsonConvert.DeserializeObject<ConfigData>(jsonContent);
                 HotKey = GetKeyFromChar(configData.HotKey);
@@ -153,7 +154,7 @@ namespace P_Keys
                 foreach (KeysGroup keyGroup in Groups)
                 {
                     keyGroup.Tidy();
-                    DGroups[keyGroup.Group] = keyGroup;
+                    DGroups[keyGroup.Name] = keyGroup;
                 }
             }
             catch (Exception ex)
@@ -190,6 +191,20 @@ namespace P_Keys
             catch (Exception ex)
             {
                 Console.WriteLine($"Fail to Save Config File In: {configPath}, error: {ex.Message}");
+            }
+        }
+
+        public static void Open()
+        {
+            try
+            {
+                TryCreateConfig();
+                string configPath = GetConfigPath();
+                Process.Start(new ProcessStartInfo(configPath) { UseShellExecute = true });
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show($"Open config fail: {e.Message}.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -236,6 +251,53 @@ namespace P_Keys
             string configPath = Path.Combine(assetsDirectory, ConfigName);
 
             return configPath;
+        }
+
+        private static void TryCreateConfig()
+        {
+            string configPath = GetConfigPath();
+            if (File.Exists(configPath))
+            {
+                return;
+            }
+
+            string content = @"{
+	""hotkey"": ""`"",
+	""groups"": [
+		{
+			""name"": ""test_group"",
+			""keys"": [
+				{
+					""key"": ""Z"",
+					""links"": [
+						{
+							""key"": ""S""
+						},
+						{
+							""key"": ""D""
+						}
+					]
+				}
+			]
+		}
+	]
+}";
+            try
+            {
+                string dir = Path.GetDirectoryName(configPath);
+                if (!Directory.Exists(dir))
+                {
+                    Directory.CreateDirectory(dir);
+                }
+
+                File.WriteAllText(configPath, content);
+            }
+            catch (Exception e)
+            {
+                //Console.WriteLine($"Write config fail: {e.Message}.");
+                MessageBox.Show($"Write config fail: {e.Message}.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Application.Exit();
+            }
         }
     }
 }

@@ -1,15 +1,23 @@
 # P-Keys
 
-## 配置文件举例
+## 功能
 
-`assets/config.json`
+按键宏功能
+
+## 配置文件
+
+在文件`assets/config.json`中
+无需手动创建, 首次打开应用会自动生成模板
+可在应用内部直接修改
+
+### 举例
 
 ```json
 {
-	"HotKey": "`",
+	"hotkey": "`",
 	"groups": [
 		{
-			"group": "group_a",
+			"name": "group_a",
 			"keys": [
 				{
 					"key": "Z",
@@ -36,7 +44,7 @@
 			]
 		},
 		{
-			"group": "group_b",
+			"name": "group_b",
 			"keys": [
 				{
 					"key": "Z",

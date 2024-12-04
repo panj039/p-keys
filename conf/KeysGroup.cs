@@ -6,7 +6,7 @@ namespace P_Keys.conf
 {
     internal class KeysGroup
     {
-        public string Group { get; set; }
+        public string Name { get; set; }
         public List<KeysData> Keys { get; set; }
         [JsonIgnore]
         public Dictionary<string, KeysData> DKeys = new Dictionary<string, KeysData>();

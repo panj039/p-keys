@@ -76,8 +76,8 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="WindowsInput, Version=1.0.4.0, Culture=neutral, PublicKeyToken=9b287f7dc5073cad, processorArchitecture=MSIL">
-      <HintPath>packages\InputSimulator.1.0.4.0\lib\net20\WindowsInput.dll</HintPath>
+    <Reference Include="WindowsInput, Version=1.0.6.0, Culture=neutral, PublicKeyToken=de2685b4776e9c2e, processorArchitecture=MSIL">
+      <HintPath>packages\InputSimulatorPlus.1.0.7\lib\net20\WindowsInput.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -85,11 +85,26 @@
     <Compile Include="conf\KeysCell.cs" />
     <Compile Include="conf\KeysData.cs" />
     <Compile Include="conf\KeysGroup.cs" />
-    <Compile Include="P_Keys.cs">
+    <Compile Include="UIGroup.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UIGroup.Designer.cs">
+      <DependentUpon>UIGroup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UIHotKey.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UIHotKey.Designer.cs">
+      <DependentUpon>UIHotKey.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UIMessage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UIPKeys.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="P_Keys.Designer.cs">
-      <DependentUpon>P_Keys.cs</DependentUpon>
+    <Compile Include="UIPKeys.Designer.cs">
+      <DependentUpon>UIPKeys.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -108,8 +123,15 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="P_Keys.resx">
-      <DependentUpon>P_Keys.cs</DependentUpon>
+    <EmbeddedResource Include="UIGroup.resx">
+      <DependentUpon>UIGroup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UIHotKey.resx">
+      <DependentUpon>UIHotKey.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UIPKeys.resx">
+      <DependentUpon>UIPKeys.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UIKeysData.resx">
       <DependentUpon>UIKeysData.cs</DependentUpon>

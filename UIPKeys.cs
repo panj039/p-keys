@@ -3,13 +3,15 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography;
+using System.Threading;
 using System.Windows.Forms;
 using WindowsInput;
 using WindowsInput.Native;
 
 namespace P_Keys
 {
-    public partial class P_Keys : Form
+    public partial class UIPKeys : Form
     {
         private const int WH_KEYBOARD_LL = 13; // 低级键盘钩子
         private const int WM_KEYDOWN = 0x0100; // 键盘按下事件
@@ -19,11 +21,11 @@ namespace P_Keys
         private KeysGroup m_curKeysGroup;
         private List<Control> m_curUIKeysData = new List<Control>();
 
-        public P_Keys()
+        public UIPKeys()
         {
             InitializeComponent();
-            this.Text = "按键模拟器";
-            this.Size = new System.Drawing.Size(300, 300);
+            this.Text = "已禁用";
+            this.Size = new System.Drawing.Size(230, 300);
             this.FormClosing += (s, e) => UnhookWindowsHookEx(m_hookId);
             m_hookId = SetHook(HookCallback);
 
@@ -64,6 +66,9 @@ namespace P_Keys
             {
                 Keys key = (Keys)Marshal.ReadInt32(lParam);
 
+                // update message
+                ui_message.Message = $"Key `{key}` Pressed";
+
                 // 按下热键(默认`)键开启/关闭功能
                 if (key == Config.HotKey) // 反引号键 Keys.Oemtilde
                 {
@@ -87,6 +92,7 @@ namespace P_Keys
                                 //m_simulator.Keyboard.KeyPress(vkc);
                             }
                         }
+                        m_simulator.Keyboard.Sleep(50);
                         for (int i = keysData.Links.Count - 1; i >= 0; i--)
                         {
                             var link = keysData.Links[i];
@@ -107,7 +113,7 @@ namespace P_Keys
         // 更新状态标签
         private void UpdateStatusLabel()
         {
-            this.Text = m_isFunctionEnabled ? "按键映射已启用" : "按键映射已禁用";
+            this.Text = m_isFunctionEnabled ? "已启用" : "已禁用";
         }
 
         // 窗口加载时，初始化状态
@@ -119,23 +125,23 @@ namespace P_Keys
 
         private void InitComponent()
         {
-            // ui_tex_hotkey
-            ui_tex_hotkey.Text = $"Hotkey: {Config.GetCharFromKey(Config.HotKey)}";
+            // ui_hotkey
+            ui_hotkey.HotKey = Config.GetCharFromKey(Config.HotKey);
 
-            // ui_com_group
-            ui_com_group.DropDownStyle = ComboBoxStyle.DropDown;
-            ui_com_group.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-            ui_com_group.AutoCompleteSource = AutoCompleteSource.ListItems;
+            // ui_group
+            ui_group.Group.DropDownStyle = ComboBoxStyle.DropDown;
+            ui_group.Group.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            ui_group.Group.AutoCompleteSource = AutoCompleteSource.ListItems;
 
-            ui_com_group.DataSource = Config.Groups;
-            ui_com_group.DisplayMember = "Group";
-            ui_com_group.ValueMember = "Group";
-            ui_com_group.SelectedIndexChanged += OnUIComGroup;
+            ui_group.Group.DataSource = Config.Groups;
+            ui_group.Group.DisplayMember = "Name";
+            ui_group.Group.ValueMember = "Name";
+            ui_group.Group.SelectedIndexChanged += OnUIComGroup;
 
             if (Config.Groups.Count > 0)
             {
-                ui_com_group.SelectedIndex = 0;
-                OnUIComGroup(ui_com_group, EventArgs.Empty);
+                ui_group.Group.SelectedIndex = 0;
+                OnUIComGroup(ui_group.Group, EventArgs.Empty);
             }
         }
 
@@ -148,7 +154,7 @@ namespace P_Keys
             }
             m_curUIKeysData.Clear();
 
-            m_curKeysGroup = ui_com_group.SelectedItem as KeysGroup;
+            m_curKeysGroup = ui_group.Group.SelectedItem as KeysGroup;
             if (m_curKeysGroup == null)
             {
                 return;
@@ -161,6 +167,24 @@ namespace P_Keys
                 ui_flow_layout_panel.Controls.Add(ui);
                 m_curUIKeysData.Add(ui);
             }
+        }
+
+        private void ui_menu_config_open_Click(object sender, EventArgs e)
+        {
+            Config.Open();
+        }
+
+        private void ui_menu_config_reload_Click(object sender, EventArgs e)
+        {
+            Config.Load();
+            ui_hotkey.HotKey = Config.GetCharFromKey(Config.HotKey);
+            ui_group.Group.DataSource = Config.Groups;
+            ui_group.Group.Refresh();
+        }
+
+        private void ui_menu_about_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(Config.HelpAbortInfo, Config.AppName, MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }
