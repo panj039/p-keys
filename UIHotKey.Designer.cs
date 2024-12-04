@@ -31,6 +31,7 @@
             this.ui_flo_layout = new System.Windows.Forms.FlowLayoutPanel();
             this.ui_lab_hotkey = new System.Windows.Forms.Label();
             this.ui_tex_hotkey = new System.Windows.Forms.TextBox();
+            this.ui_che_hotkey = new System.Windows.Forms.CheckBox();
             this.ui_flo_layout.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -39,6 +40,7 @@
             this.ui_flo_layout.AutoSize = true;
             this.ui_flo_layout.Controls.Add(this.ui_lab_hotkey);
             this.ui_flo_layout.Controls.Add(this.ui_tex_hotkey);
+            this.ui_flo_layout.Controls.Add(this.ui_che_hotkey);
             this.ui_flo_layout.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ui_flo_layout.Location = new System.Drawing.Point(0, 0);
             this.ui_flo_layout.Name = "ui_flo_layout";
@@ -62,8 +64,20 @@
             this.ui_tex_hotkey.Margin = new System.Windows.Forms.Padding(0);
             this.ui_tex_hotkey.Name = "ui_tex_hotkey";
             this.ui_tex_hotkey.ReadOnly = true;
-            this.ui_tex_hotkey.Size = new System.Drawing.Size(144, 21);
+            this.ui_tex_hotkey.Size = new System.Drawing.Size(78, 21);
             this.ui_tex_hotkey.TabIndex = 1;
+            // 
+            // ui_che_hotkey
+            // 
+            this.ui_che_hotkey.AutoSize = true;
+            this.ui_che_hotkey.Location = new System.Drawing.Point(137, 3);
+            this.ui_che_hotkey.Name = "ui_che_hotkey";
+            this.ui_che_hotkey.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.ui_che_hotkey.Size = new System.Drawing.Size(60, 16);
+            this.ui_che_hotkey.TabIndex = 3;
+            this.ui_che_hotkey.Text = "Switch";
+            this.ui_che_hotkey.UseVisualStyleBackColor = true;
+            this.ui_che_hotkey.CheckedChanged += new System.EventHandler(this.ui_che_hotkey_CheckedChanged);
             // 
             // UIHotKey
             // 
@@ -84,5 +98,6 @@
         private System.Windows.Forms.FlowLayoutPanel ui_flo_layout;
         private System.Windows.Forms.Label ui_lab_hotkey;
         private System.Windows.Forms.TextBox ui_tex_hotkey;
+        private System.Windows.Forms.CheckBox ui_che_hotkey;
     }
 }

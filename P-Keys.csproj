@@ -100,6 +100,9 @@
     <Compile Include="UIMessage.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="UIMessage.Designer.cs">
+      <DependentUpon>UIMessage.cs</DependentUpon>
+    </Compile>
     <Compile Include="UIPKeys.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -129,6 +132,9 @@
     <EmbeddedResource Include="UIHotKey.resx">
       <DependentUpon>UIHotKey.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UIMessage.resx">
+      <DependentUpon>UIMessage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UIPKeys.resx">
       <DependentUpon>UIPKeys.cs</DependentUpon>

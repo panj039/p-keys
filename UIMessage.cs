@@ -1,21 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace P_Keys
 {
-    internal class UIMessage : UIHotKey
+    public partial class UIMessage : UserControl
     {
         public UIMessage()
         {
-            this.HotKeyLabel = "Message";
+            InitializeComponent();
         }
 
         public String Message
         {
-            set => this.HotKey = value;
+            set => this.ui_tex_message.Text = value;
         }
     }
 }

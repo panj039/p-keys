@@ -31,14 +31,14 @@
             this.ui_menu = new System.Windows.Forms.MenuStrip();
             this.ui_menu_config = new System.Windows.Forms.ToolStripMenuItem();
             this.ui_menu_config_open = new System.Windows.Forms.ToolStripMenuItem();
-            this.ui_flow_layout_panel = new System.Windows.Forms.FlowLayoutPanel();
-            this.ui_spl_keys = new System.Windows.Forms.Splitter();
             this.ui_menu_config_reload = new System.Windows.Forms.ToolStripMenuItem();
+            this.ui_menu_help = new System.Windows.Forms.ToolStripMenuItem();
+            this.ui_menu_help_about = new System.Windows.Forms.ToolStripMenuItem();
+            this.ui_flow_layout_panel = new System.Windows.Forms.FlowLayoutPanel();
             this.ui_hotkey = new P_Keys.UIHotKey();
             this.ui_group = new P_Keys.UIGroup();
             this.ui_message = new P_Keys.UIMessage();
-            this.ui_menu_help = new System.Windows.Forms.ToolStripMenuItem();
-            this.ui_menu_about = new System.Windows.Forms.ToolStripMenuItem();
+            this.ui_spl_keys = new System.Windows.Forms.Splitter();
             this.ui_menu.SuspendLayout();
             this.ui_flow_layout_panel.SuspendLayout();
             this.SuspendLayout();
@@ -71,6 +71,28 @@
             this.ui_menu_config_open.Text = "Open";
             this.ui_menu_config_open.Click += new System.EventHandler(this.ui_menu_config_open_Click);
             // 
+            // ui_menu_config_reload
+            // 
+            this.ui_menu_config_reload.Name = "ui_menu_config_reload";
+            this.ui_menu_config_reload.Size = new System.Drawing.Size(117, 22);
+            this.ui_menu_config_reload.Text = "Reload";
+            this.ui_menu_config_reload.Click += new System.EventHandler(this.ui_menu_config_reload_Click);
+            // 
+            // ui_menu_help
+            // 
+            this.ui_menu_help.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ui_menu_help_about});
+            this.ui_menu_help.Name = "ui_menu_help";
+            this.ui_menu_help.Size = new System.Drawing.Size(47, 21);
+            this.ui_menu_help.Text = "Help";
+            // 
+            // ui_menu_help_about
+            // 
+            this.ui_menu_help_about.Name = "ui_menu_help_about";
+            this.ui_menu_help_about.Size = new System.Drawing.Size(180, 22);
+            this.ui_menu_help_about.Text = "About";
+            this.ui_menu_help_about.Click += new System.EventHandler(this.ui_menu_help_about_Click);
+            // 
             // ui_flow_layout_panel
             // 
             this.ui_flow_layout_panel.AutoScroll = true;
@@ -88,25 +110,9 @@
             this.ui_flow_layout_panel.TabIndex = 2;
             this.ui_flow_layout_panel.WrapContents = false;
             // 
-            // ui_spl_keys
-            // 
-            this.ui_spl_keys.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.ui_spl_keys.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.ui_spl_keys.Location = new System.Drawing.Point(3, 87);
-            this.ui_spl_keys.Name = "ui_spl_keys";
-            this.ui_spl_keys.Size = new System.Drawing.Size(203, 3);
-            this.ui_spl_keys.TabIndex = 4;
-            this.ui_spl_keys.TabStop = false;
-            // 
-            // ui_menu_config_reload
-            // 
-            this.ui_menu_config_reload.Name = "ui_menu_config_reload";
-            this.ui_menu_config_reload.Size = new System.Drawing.Size(117, 22);
-            this.ui_menu_config_reload.Text = "Reload";
-            this.ui_menu_config_reload.Click += new System.EventHandler(this.ui_menu_config_reload_Click);
-            // 
             // ui_hotkey
             // 
+            this.ui_hotkey.Check = false;
             this.ui_hotkey.Location = new System.Drawing.Point(3, 3);
             this.ui_hotkey.Name = "ui_hotkey";
             this.ui_hotkey.Size = new System.Drawing.Size(200, 21);
@@ -127,20 +133,15 @@
             this.ui_message.Size = new System.Drawing.Size(200, 21);
             this.ui_message.TabIndex = 5;
             // 
-            // ui_menu_help
+            // ui_spl_keys
             // 
-            this.ui_menu_help.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ui_menu_about});
-            this.ui_menu_help.Name = "ui_menu_help";
-            this.ui_menu_help.Size = new System.Drawing.Size(47, 21);
-            this.ui_menu_help.Text = "Help";
-            // 
-            // ui_menu_about
-            // 
-            this.ui_menu_about.Name = "ui_menu_about";
-            this.ui_menu_about.Size = new System.Drawing.Size(180, 22);
-            this.ui_menu_about.Text = "About";
-            this.ui_menu_about.Click += new System.EventHandler(this.ui_menu_about_Click);
+            this.ui_spl_keys.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.ui_spl_keys.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.ui_spl_keys.Location = new System.Drawing.Point(3, 87);
+            this.ui_spl_keys.Name = "ui_spl_keys";
+            this.ui_spl_keys.Size = new System.Drawing.Size(203, 3);
+            this.ui_spl_keys.TabIndex = 4;
+            this.ui_spl_keys.TabStop = false;
             // 
             // UIPKeys
             // 
@@ -173,7 +174,7 @@
         private System.Windows.Forms.ToolStripMenuItem ui_menu_config_reload;
         private UIMessage ui_message;
         private System.Windows.Forms.ToolStripMenuItem ui_menu_help;
-        private System.Windows.Forms.ToolStripMenuItem ui_menu_about;
+        private System.Windows.Forms.ToolStripMenuItem ui_menu_help_about;
     }
 }
 

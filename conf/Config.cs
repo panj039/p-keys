@@ -17,16 +17,45 @@ namespace P_Keys
 
     internal class Config
     {
-        public static Keys HotKey;
-        public static List<KeysGroup> Groups = new List<KeysGroup>();
-        public static Dictionary<string, KeysGroup> DGroups = new Dictionary<string, KeysGroup>();
         public static readonly string AppName = "P-Keys";
         public static readonly string HelpAbortInfo = @"P-Keys
 
 Author: Pan
-Version: 0.0.1
-Date: 2024-12-04 14:07
+Version: 0.0.2
+Date: 2024-12-04 17:00:00
 Repository: https://github.com/panj039/p-keys.git";
+        private static readonly string DefaultConfig = @"{
+	""hotkey"": ""`"",
+	""groups"": [
+		{
+			""name"": ""test_group"",
+			""keys"": [
+				{
+					""key"": ""Q"",
+					""links"": [
+						{
+							""key"": ""CTRL""
+						},
+						{
+							""key"": ""C""
+						}
+					]
+				},
+				{
+					""key"": ""W"",
+					""links"": [
+						{
+							""key"": ""CTRL""
+						},
+						{
+							""key"": ""V""
+						}
+					]
+				}
+			]
+		}
+	]
+}";
         private static readonly string Assets = "assets";
         private static readonly string ConfigName = "config.json";
         private static readonly Dictionary<string, VirtualKeyCode> CharsToVirtualKeyCode = new Dictionary<string, VirtualKeyCode> {
@@ -138,6 +167,9 @@ Repository: https://github.com/panj039/p-keys.git";
             { Keys.Tab, "Tab" },
             { Keys.Enter, "Enter" }
         };
+        public static Keys HotKey;
+        public static List<KeysGroup> Groups = new List<KeysGroup>();
+        public static Dictionary<string, KeysGroup> DGroups = new Dictionary<string, KeysGroup>();
         public static void Load()
         {
             try
@@ -261,27 +293,6 @@ Repository: https://github.com/panj039/p-keys.git";
                 return;
             }
 
-            string content = @"{
-	""hotkey"": ""`"",
-	""groups"": [
-		{
-			""name"": ""test_group"",
-			""keys"": [
-				{
-					""key"": ""Z"",
-					""links"": [
-						{
-							""key"": ""S""
-						},
-						{
-							""key"": ""D""
-						}
-					]
-				}
-			]
-		}
-	]
-}";
             try
             {
                 string dir = Path.GetDirectoryName(configPath);
@@ -290,7 +301,7 @@ Repository: https://github.com/panj039/p-keys.git";
                     Directory.CreateDirectory(dir);
                 }
 
-                File.WriteAllText(configPath, content);
+                File.WriteAllText(configPath, Config.DefaultConfig);
             }
             catch (Exception e)
             {

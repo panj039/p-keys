@@ -17,21 +17,31 @@ namespace P_Keys
         private const int WM_KEYDOWN = 0x0100; // 键盘按下事件
         private IntPtr m_hookId = IntPtr.Zero;
         private InputSimulator m_simulator = new InputSimulator();
-        private bool m_isFunctionEnabled = false;
         private KeysGroup m_curKeysGroup;
         private List<Control> m_curUIKeysData = new List<Control>();
 
         public UIPKeys()
         {
             InitializeComponent();
-            this.Text = "已禁用";
+            this.Text = "Disable";
             this.Size = new System.Drawing.Size(230, 300);
             this.FormClosing += (s, e) => UnhookWindowsHookEx(m_hookId);
             m_hookId = SetHook(HookCallback);
+            ui_hotkey.Root = this;
 
             Config.Load();
 
             InitComponent();
+        }
+
+        public bool IsFunctionEnabled {
+            get => ui_hotkey.Check;
+        }
+
+        // 更新状态标签
+        public void UpdateStatusLabel()
+        {
+            this.Text = IsFunctionEnabled ? "Enable" : "Disable";
         }
 
         // Windows API
@@ -72,13 +82,12 @@ namespace P_Keys
                 // 按下热键(默认`)键开启/关闭功能
                 if (key == Config.HotKey) // 反引号键 Keys.Oemtilde
                 {
-                    m_isFunctionEnabled = !m_isFunctionEnabled;
-                    UpdateStatusLabel();
+                    ui_hotkey.Check = !ui_hotkey.Check;
                     return (IntPtr)1;  // 返回1，表示此事件已被处理
                 }
 
                 // 如果按键映射启用，按下指定键时模拟后续按键组合
-                if (m_isFunctionEnabled)
+                if (IsFunctionEnabled)
                 {
                     var keysData = m_curKeysGroup.GetKeysData(key);
                     if (keysData != null)
@@ -108,12 +117,6 @@ namespace P_Keys
             }
 
             return CallNextHookEx(m_hookId, nCode, wParam, lParam);
-        }
-
-        // 更新状态标签
-        private void UpdateStatusLabel()
-        {
-            this.Text = m_isFunctionEnabled ? "已启用" : "已禁用";
         }
 
         // 窗口加载时，初始化状态
@@ -182,7 +185,7 @@ namespace P_Keys
             ui_group.Group.Refresh();
         }
 
-        private void ui_menu_about_Click(object sender, EventArgs e)
+        private void ui_menu_help_about_Click(object sender, EventArgs e)
         {
             MessageBox.Show(Config.HelpAbortInfo, Config.AppName, MessageBoxButtons.OK, MessageBoxIcon.Information);
         }

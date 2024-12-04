@@ -25,9 +25,13 @@ namespace P_Keys.conf
             try
             {
                 string cKey = Config.GetCharFromKey(key);
-                if (DKeys.TryGetValue(cKey, out KeysData value))
+                if (DKeys.TryGetValue(cKey.ToLower(), out KeysData valueL))
                 {
-                    return value;
+                    return valueL;
+                }
+                if (DKeys.TryGetValue(cKey.ToUpper(), out KeysData valueU))
+                {
+                    return valueU;
                 }
             }
             catch
