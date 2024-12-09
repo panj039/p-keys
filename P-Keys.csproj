@@ -83,6 +83,7 @@
   <ItemGroup>
     <Compile Include="conf\Config.cs" />
     <Compile Include="conf\KeysCell.cs" />
+    <Compile Include="conf\KeysConfig.cs" />
     <Compile Include="conf\KeysData.cs" />
     <Compile Include="conf\KeysGroup.cs" />
     <Compile Include="UIGroup.cs">

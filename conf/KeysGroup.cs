@@ -16,27 +16,18 @@ namespace P_Keys.conf
             DKeys.Clear();
             foreach (var key in Keys)
             {
-                DKeys[key.Key] = key;
+                DKeys[key.Key.ToLower()] = key;
             }
         }
 
         public KeysData GetKeysData(Keys key)
         {
-            try
+            string cKey = Config.SKey(key);
+            if (DKeys.TryGetValue(cKey.ToLower(), out KeysData valueL))
             {
-                string cKey = Config.GetCharFromKey(key);
-                if (DKeys.TryGetValue(cKey.ToLower(), out KeysData valueL))
-                {
-                    return valueL;
-                }
-                if (DKeys.TryGetValue(cKey.ToUpper(), out KeysData valueU))
-                {
-                    return valueU;
-                }
+                return valueL;
             }
-            catch
-            {
-            }
+
             return null;
         }
     }

@@ -95,7 +95,7 @@ namespace P_Keys
                         foreach (var link in keysData.Links)
                         {
                             VirtualKeyCode vkc = VirtualKeyCode.LBUTTON;
-                            if (link.GetVirtualKeyCode(ref vkc))
+                            if (link.VKey(ref vkc))
                             {
                                 vkc.Press(m_simulator, true);
                             }
@@ -105,7 +105,7 @@ namespace P_Keys
                         {
                             var link = keysData.Links[i];
                             VirtualKeyCode vkc = VirtualKeyCode.LBUTTON;
-                            if (link.GetVirtualKeyCode(ref vkc))
+                            if (link.VKey(ref vkc))
                             {
                                 vkc.Press(m_simulator, false);
                             }
@@ -128,7 +128,7 @@ namespace P_Keys
         private void InitComponent()
         {
             // ui_hotkey
-            ui_hotkey.HotKey = Config.GetCharFromKey(Config.HotKey);
+            ui_hotkey.HotKey = Config.SKey(Config.HotKey);
 
             // ui_group
             ui_group.Group.DropDownStyle = ComboBoxStyle.DropDown;
@@ -179,7 +179,7 @@ namespace P_Keys
         private void ui_menu_config_reload_Click(object sender, EventArgs e)
         {
             Config.Load();
-            ui_hotkey.HotKey = Config.GetCharFromKey(Config.HotKey);
+            ui_hotkey.HotKey = Config.SKey(Config.HotKey);
             ui_group.Group.DataSource = Config.Groups;
             ui_group.Group.Refresh();
         }

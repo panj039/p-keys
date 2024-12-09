@@ -1,4 +1,5 @@
-﻿using WindowsInput.Native;
+﻿using System.Windows.Forms;
+using WindowsInput.Native;
 
 namespace P_Keys.conf
 {
@@ -6,14 +7,13 @@ namespace P_Keys.conf
     {
         public string Key { get; set; }
 
-        public bool GetVirtualKeyCode(ref VirtualKeyCode vkc)
+        public bool VKey(ref VirtualKeyCode vkc)
         {
-            try
+            if (KeysConfig.SKeys.TryGetValue(Key.ToLower(), out KeysConfig k))
             {
-                vkc = Config.GetVirtualKeyCodeFromChar(Key);
+                vkc = k.VirtualKey;
                 return true;
             }
-            catch { }
 
             return false;
         }
