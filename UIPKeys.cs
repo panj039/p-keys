@@ -97,8 +97,7 @@ namespace P_Keys
                             VirtualKeyCode vkc = VirtualKeyCode.LBUTTON;
                             if (link.GetVirtualKeyCode(ref vkc))
                             {
-                                m_simulator.Keyboard.KeyDown(vkc);
-                                //m_simulator.Keyboard.KeyPress(vkc);
+                                vkc.Press(m_simulator, true);
                             }
                         }
                         m_simulator.Keyboard.Sleep(50);
@@ -108,7 +107,7 @@ namespace P_Keys
                             VirtualKeyCode vkc = VirtualKeyCode.LBUTTON;
                             if (link.GetVirtualKeyCode(ref vkc))
                             {
-                                m_simulator.Keyboard.KeyUp(vkc);
+                                vkc.Press(m_simulator, false);
                             }
                         }
                         return (IntPtr)1; // 阻止继续传递此事件

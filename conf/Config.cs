@@ -5,7 +5,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
+using WindowsInput;
 using WindowsInput.Native;
+using static System.Runtime.CompilerServices.RuntimeHelpers;
 
 namespace P_Keys
 {
@@ -106,7 +108,12 @@ Repository: https://github.com/panj039/p-keys.git";
             //{"lshift", VirtualKeyCode.LSHIFT},
             //{"rshift", VirtualKeyCode.RSHIFT},
             {"tab", VirtualKeyCode.TAB},
-            {"enter", VirtualKeyCode.RETURN}
+            {"enter", VirtualKeyCode.RETURN},
+            {"lbutton", VirtualKeyCode.LBUTTON},
+            {"rbutton", VirtualKeyCode.RBUTTON},
+            {"mbutton", VirtualKeyCode.MBUTTON},
+            {"xbutton1", VirtualKeyCode.XBUTTON1},
+            {"xbutton2", VirtualKeyCode.XBUTTON2}
         };
         private static readonly Dictionary<Keys, string> KeysToChar = new Dictionary<Keys, string>
         {
@@ -165,7 +172,12 @@ Repository: https://github.com/panj039/p-keys.git";
             { Keys.LShiftKey, "LShift" },
             { Keys.RShiftKey, "RShift" },
             { Keys.Tab, "Tab" },
-            { Keys.Enter, "Enter" }
+            { Keys.Enter, "Enter" },
+            { Keys.LButton, "LButton"},
+            { Keys.RButton, "RButton" },
+            { Keys.MButton, "MButton" },
+            { Keys.XButton1, "XButton1" },
+            { Keys.XButton2, "XButton2" }
         };
         public static Keys HotKey;
         public static List<KeysGroup> Groups = new List<KeysGroup>();
@@ -308,6 +320,40 @@ Repository: https://github.com/panj039/p-keys.git";
                 //Console.WriteLine($"Write config fail: {e.Message}.");
                 MessageBox.Show($"Write config fail: {e.Message}.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Application.Exit();
+            }
+        }
+    }
+
+    public static class VirtualKeyCodeExtensions
+    {
+        public static bool IsMouseEvent(this VirtualKeyCode vkc)
+        {
+            if (
+                (vkc == VirtualKeyCode.LBUTTON)
+                || (vkc == VirtualKeyCode.RBUTTON)
+                || (vkc == VirtualKeyCode.MBUTTON)
+                || (vkc == VirtualKeyCode.XBUTTON1)
+                || (vkc == VirtualKeyCode.XBUTTON2)
+            ) {
+                return true;
+            }
+
+            return false;
+        }
+
+        public static void Press(this VirtualKeyCode vkc, InputSimulator sim, bool isDown)
+        {
+            if (vkc.IsMouseEvent())
+            {
+                if (vkc == VirtualKeyCode.LBUTTON) { if (isDown) { sim.Mouse.LeftButtonDown(); } else { sim.Mouse.LeftButtonUp(); } }
+                else if (vkc == VirtualKeyCode.RBUTTON) { if (isDown) { sim.Mouse.RightButtonDown(); } else { sim.Mouse.RightButtonUp(); } }
+                else if (vkc == VirtualKeyCode.MBUTTON) { if (isDown) { sim.Mouse.MiddleButtonDown(); } else { sim.Mouse.MiddleButtonUp(); } }
+                else if (vkc == VirtualKeyCode.XBUTTON1) { if (isDown) { sim.Mouse.XButtonDown(1); } else { sim.Mouse.XButtonUp(1); } }
+                else if (vkc == VirtualKeyCode.XBUTTON2) { if (isDown) { sim.Mouse.XButtonDown(2); } else { sim.Mouse.XButtonUp(2); } }
+            }
+            else
+            {
+                if (isDown) { sim.Keyboard.KeyDown(vkc); } else { sim.Keyboard.KeyUp(vkc); }
             }
         }
     }
