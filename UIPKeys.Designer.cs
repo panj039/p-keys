@@ -33,6 +33,7 @@
             this.ui_menu_config_open = new System.Windows.Forms.ToolStripMenuItem();
             this.ui_menu_config_reload = new System.Windows.Forms.ToolStripMenuItem();
             this.ui_menu_help = new System.Windows.Forms.ToolStripMenuItem();
+            this.ui_menu_help_all_support_keys = new System.Windows.Forms.ToolStripMenuItem();
             this.ui_menu_help_about = new System.Windows.Forms.ToolStripMenuItem();
             this.ui_flow_layout_panel = new System.Windows.Forms.FlowLayoutPanel();
             this.ui_hotkey = new P_Keys.UIHotKey();
@@ -81,10 +82,18 @@
             // ui_menu_help
             // 
             this.ui_menu_help.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ui_menu_help_all_support_keys,
             this.ui_menu_help_about});
             this.ui_menu_help.Name = "ui_menu_help";
             this.ui_menu_help.Size = new System.Drawing.Size(47, 21);
             this.ui_menu_help.Text = "Help";
+            // 
+            // ui_menu_help_all_support_keys
+            // 
+            this.ui_menu_help_all_support_keys.Name = "ui_menu_help_all_support_keys";
+            this.ui_menu_help_all_support_keys.Size = new System.Drawing.Size(180, 22);
+            this.ui_menu_help_all_support_keys.Text = "All Support Keys";
+            this.ui_menu_help_all_support_keys.Click += new System.EventHandler(this.ui_menu_help_all_support_keys_Click);
             // 
             // ui_menu_help_about
             // 
@@ -175,6 +184,7 @@
         private UIMessage ui_message;
         private System.Windows.Forms.ToolStripMenuItem ui_menu_help;
         private System.Windows.Forms.ToolStripMenuItem ui_menu_help_about;
+        private System.Windows.Forms.ToolStripMenuItem ui_menu_help_all_support_keys;
     }
 }
 

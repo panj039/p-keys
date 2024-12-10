@@ -24,7 +24,7 @@ namespace P_Keys
         {
             InitializeComponent();
             this.Text = "Disable";
-            this.Size = new System.Drawing.Size(230, 300);
+            this.Size = new System.Drawing.Size(250, 300);
             this.FormClosing += (s, e) => UnhookWindowsHookEx(m_hookId);
             m_hookId = SetHook(HookCallback);
             ui_hotkey.Root = this;
@@ -171,14 +171,41 @@ namespace P_Keys
         private void ui_menu_config_reload_Click(object sender, EventArgs e)
         {
             Config.Load();
+
             ui_hotkey.HotKey = Config.HotKey?.SKey ?? "";
+
+            ui_group.Group.DataSource = null;
             ui_group.Group.DataSource = Config.Groups;
-            ui_group.Group.Refresh();
+            ui_group.Group.DisplayMember = "Name";
+            ui_group.Group.ValueMember = "Name";
         }
 
         private void ui_menu_help_about_Click(object sender, EventArgs e)
         {
             MessageBox.Show(Config.HelpAbortInfo, Config.AppName, MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void ui_menu_help_all_support_keys_Click(object sender, EventArgs e)
+        {
+
+            string info = "All Support Keys:\n\n";
+            int count = 0;
+            int limit = 5;
+            foreach (var strKey in KeysConfig.LisStrKeys)
+            {
+                ++count;
+                info += strKey + ",";
+                if (count == limit)
+                {
+                    info += "\n";
+                }
+                else
+                {
+                    info += "\t";
+                }
+            }
+            info = info.Substring(0, info.Length - 2);
+            MessageBox.Show(info, Config.AppName, MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }

@@ -70,7 +70,7 @@ groups:
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error reading or parsing the JSON file: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error reading or parsing the YAML file: {ex.Message}\nPlease check config.yml file content format.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
