@@ -18,32 +18,12 @@ namespace P_Keys.conf
             VKeys = new Dictionary<VirtualKeyCode, KeyConfig>();
             LisStrKeys = new List<string>(); // help for all support keys
 
-            // function 1
-            RegKey("F1", Keys.F1, VirtualKeyCode.F1);
-            RegKey("F2", Keys.F2, VirtualKeyCode.F2);
-            RegKey("F3", Keys.F3, VirtualKeyCode.F3);
-            RegKey("F4", Keys.F4, VirtualKeyCode.F4);
-            RegKey("F5", Keys.F5, VirtualKeyCode.F5);
-            RegKey("F6", Keys.F6, VirtualKeyCode.F6);
-            RegKey("F7", Keys.F7, VirtualKeyCode.F7);
-            RegKey("F8", Keys.F8, VirtualKeyCode.F8);
-            RegKey("F9", Keys.F9, VirtualKeyCode.F9);
-            RegKey("F10", Keys.F10, VirtualKeyCode.F10);
-            RegKey("F11", Keys.F11, VirtualKeyCode.F11);
-            RegKey("F12", Keys.F12, VirtualKeyCode.F12);
-
-            // function 2
-            RegKey("PrintScreen", Keys.PrintScreen, VirtualKeyCode.SNAPSHOT);
-            RegKey("ScrollLock", Keys.Scroll, VirtualKeyCode.SCROLL);
-            RegKey("Pause", Keys.Pause, VirtualKeyCode.PAUSE);
-
-            // function 3
-            RegKey("Insert", Keys.Insert, VirtualKeyCode.INSERT);
-            RegKey("Home", Keys.Home, VirtualKeyCode.HOME);
-            RegKey("Delete", Keys.Delete, VirtualKeyCode.DELETE);
-            RegKey("End", Keys.End, VirtualKeyCode.END);
-            RegKey("PageUp", Keys.PageUp, VirtualKeyCode.PRIOR);
-            RegKey("PageDown", Keys.PageDown, VirtualKeyCode.NEXT);
+            // mouse
+            RegKey("LBUTTON", Keys.LButton, VirtualKeyCode.LBUTTON);
+            RegKey("RBUTTON", Keys.RButton, VirtualKeyCode.RBUTTON);
+            RegKey("MBUTTON", Keys.MButton, VirtualKeyCode.MBUTTON);
+            RegKey("XBUTTON1", Keys.XButton1, VirtualKeyCode.XBUTTON1);
+            RegKey("XBUTTON2", Keys.XButton2, VirtualKeyCode.XBUTTON2);
 
             // number
             RegKey("0", Keys.D0, VirtualKeyCode.VK_0);
@@ -56,23 +36,6 @@ namespace P_Keys.conf
             RegKey("7", Keys.D7, VirtualKeyCode.VK_7);
             RegKey("8", Keys.D8, VirtualKeyCode.VK_8);
             RegKey("9", Keys.D9, VirtualKeyCode.VK_9);
-
-            // keypad
-            RegKey("Num+", Keys.Add, VirtualKeyCode.ADD);
-            RegKey("Num-", Keys.Subtract, VirtualKeyCode.SUBTRACT);
-            RegKey("Num*", Keys.Multiply, VirtualKeyCode.MULTIPLY);
-            RegKey("Num/", Keys.Divide, VirtualKeyCode.DIVIDE);
-            RegKey("Num.", Keys.Decimal, VirtualKeyCode.DECIMAL);
-            RegKey("Num0", Keys.NumPad0, VirtualKeyCode.NUMPAD0);
-            RegKey("Num1", Keys.NumPad1, VirtualKeyCode.NUMPAD1);
-            RegKey("Num2", Keys.NumPad2, VirtualKeyCode.NUMPAD2);
-            RegKey("Num3", Keys.NumPad3, VirtualKeyCode.NUMPAD3);
-            RegKey("Num4", Keys.NumPad4, VirtualKeyCode.NUMPAD4);
-            RegKey("Num5", Keys.NumPad5, VirtualKeyCode.NUMPAD5);
-            RegKey("Num6", Keys.NumPad6, VirtualKeyCode.NUMPAD6);
-            RegKey("Num7", Keys.NumPad7, VirtualKeyCode.NUMPAD7);
-            RegKey("Num8", Keys.NumPad8, VirtualKeyCode.NUMPAD8);
-            RegKey("Num9", Keys.NumPad9, VirtualKeyCode.NUMPAD9);
 
             // alphabet
             RegKey("A", Keys.A, VirtualKeyCode.VK_A);
@@ -120,6 +83,56 @@ namespace P_Keys.conf
             RegKey("LWin", Keys.LWin, VirtualKeyCode.LWIN);
             RegKey("RWin", Keys.RWin, VirtualKeyCode.RWIN);
 
+            // function 1
+            RegKey("F1", Keys.F1, VirtualKeyCode.F1);
+            RegKey("F2", Keys.F2, VirtualKeyCode.F2);
+            RegKey("F3", Keys.F3, VirtualKeyCode.F3);
+            RegKey("F4", Keys.F4, VirtualKeyCode.F4);
+            RegKey("F5", Keys.F5, VirtualKeyCode.F5);
+            RegKey("F6", Keys.F6, VirtualKeyCode.F6);
+            RegKey("F7", Keys.F7, VirtualKeyCode.F7);
+            RegKey("F8", Keys.F8, VirtualKeyCode.F8);
+            RegKey("F9", Keys.F9, VirtualKeyCode.F9);
+            RegKey("F10", Keys.F10, VirtualKeyCode.F10);
+            RegKey("F11", Keys.F11, VirtualKeyCode.F11);
+            RegKey("F12", Keys.F12, VirtualKeyCode.F12);
+
+            // function 2
+            RegKey("PrintScreen", Keys.PrintScreen, VirtualKeyCode.SNAPSHOT);
+            RegKey("ScrollLock", Keys.Scroll, VirtualKeyCode.SCROLL);
+            RegKey("Pause", Keys.Pause, VirtualKeyCode.PAUSE);
+
+            // function 3
+            RegKey("Insert", Keys.Insert, VirtualKeyCode.INSERT);
+            RegKey("Home", Keys.Home, VirtualKeyCode.HOME);
+            RegKey("Delete", Keys.Delete, VirtualKeyCode.DELETE);
+            RegKey("End", Keys.End, VirtualKeyCode.END);
+            RegKey("PageUp", Keys.PageUp, VirtualKeyCode.PRIOR);
+            RegKey("PageDown", Keys.PageDown, VirtualKeyCode.NEXT);
+
+            // direction
+            RegKey("Up", Keys.Up, VirtualKeyCode.UP);
+            RegKey("Down", Keys.Down, VirtualKeyCode.DOWN);
+            RegKey("Left", Keys.Left, VirtualKeyCode.LEFT);
+            RegKey("Right", Keys.Right, VirtualKeyCode.RIGHT);
+
+            // keypad
+            RegKey("Num+", Keys.Add, VirtualKeyCode.ADD);
+            RegKey("Num-", Keys.Subtract, VirtualKeyCode.SUBTRACT);
+            RegKey("Num*", Keys.Multiply, VirtualKeyCode.MULTIPLY);
+            RegKey("Num/", Keys.Divide, VirtualKeyCode.DIVIDE);
+            RegKey("Num.", Keys.Decimal, VirtualKeyCode.DECIMAL);
+            RegKey("Num0", Keys.NumPad0, VirtualKeyCode.NUMPAD0);
+            RegKey("Num1", Keys.NumPad1, VirtualKeyCode.NUMPAD1);
+            RegKey("Num2", Keys.NumPad2, VirtualKeyCode.NUMPAD2);
+            RegKey("Num3", Keys.NumPad3, VirtualKeyCode.NUMPAD3);
+            RegKey("Num4", Keys.NumPad4, VirtualKeyCode.NUMPAD4);
+            RegKey("Num5", Keys.NumPad5, VirtualKeyCode.NUMPAD5);
+            RegKey("Num6", Keys.NumPad6, VirtualKeyCode.NUMPAD6);
+            RegKey("Num7", Keys.NumPad7, VirtualKeyCode.NUMPAD7);
+            RegKey("Num8", Keys.NumPad8, VirtualKeyCode.NUMPAD8);
+            RegKey("Num9", Keys.NumPad9, VirtualKeyCode.NUMPAD9);
+
             // symbol
             RegKey("`", Keys.Oemtilde, VirtualKeyCode.OEM_3);
             RegKey("-", Keys.OemMinus, VirtualKeyCode.OEM_MINUS);
@@ -132,19 +145,6 @@ namespace P_Keys.conf
             //RegKey(";", Keys.OemSemicolon, VirtualKeyCode.OEM_SEMICOLON);
             //RegKey("'", Keys.OemQuotes, VirtualKeyCode.OEM_QUOTE);
             //RegKey("/", Keys.OemQuestion, VirtualKeyCode.OEM_SLASH);
-
-            // direction
-            RegKey("Up", Keys.Up, VirtualKeyCode.UP);
-            RegKey("Down", Keys.Down, VirtualKeyCode.DOWN);
-            RegKey("Left", Keys.Left, VirtualKeyCode.LEFT);
-            RegKey("Right", Keys.Right, VirtualKeyCode.RIGHT);
-
-            // mouse
-            RegKey("LBUTTON", Keys.LButton, VirtualKeyCode.LBUTTON);
-            RegKey("RBUTTON", Keys.RButton, VirtualKeyCode.RBUTTON);
-            RegKey("MBUTTON", Keys.MButton, VirtualKeyCode.MBUTTON);
-            RegKey("XBUTTON1", Keys.XButton1, VirtualKeyCode.XBUTTON1);
-            RegKey("XBUTTON2", Keys.XButton2, VirtualKeyCode.XBUTTON2);
         }
 
         public static readonly Dictionary<string, KeyConfig> SKeys;

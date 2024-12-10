@@ -19,7 +19,7 @@ namespace P_Keys
 
 Author: Pan
 Version: 0.0.3
-Date: 2024-12-10 17:00:00
+Date: 2024-12-10 19:30:00
 Repository: https://github.com/panj039/p-keys.git";
         private static readonly string DefaultConfig = @"hotkey: ""`"" # keep empty to disable hotkey
 # keydelay: 50 # key delay in ms(default 50)

@@ -23,6 +23,7 @@ namespace P_Keys
         public UIPKeys()
         {
             InitializeComponent();
+            this.Icon = Properties.Resources.AppIcon;
             this.Text = "Disable";
             this.Size = new System.Drawing.Size(250, 300);
             this.FormClosing += (s, e) => UnhookWindowsHookEx(m_hookId);

@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // 控制。更改这些特性值可修改
 // 与程序集关联的信息。
 [assembly: AssemblyTitle("P-Keys")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Keyboard Macro")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("OptiPlex 7080")]
+[assembly: AssemblyCompany("Pan")]
 [assembly: AssemblyProduct("P-Keys")]
-[assembly: AssemblyCopyright("Copyright © OptiPlex 7080 2024")]
+[assembly: AssemblyCopyright("Copyright © Pan 2024")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -29,5 +29,5 @@ using System.Runtime.InteropServices;
 //      生成号
 //      修订号
 //
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion("0.0.3.0")]
+[assembly: AssemblyFileVersion("0.0.3.0")]
