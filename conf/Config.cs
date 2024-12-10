@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using P_Keys.conf;
+﻿using P_Keys.conf;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -7,62 +6,40 @@ using System.IO;
 using System.Windows.Forms;
 using WindowsInput;
 using WindowsInput.Native;
-using static System.Runtime.CompilerServices.RuntimeHelpers;
+using YamlDotNet.Serialization;
 
 namespace P_Keys
 {
-    internal class ConfigData
-    {
-        public string HotKey = "`";
-        public List<KeysGroup> Groups = new List<KeysGroup>();
-    }
-
     internal class Config
     {
         public static readonly string AppName = "P-Keys";
+        private static readonly string Assets = "assets";
+        private static readonly string ConfigName = "config.yml";
         public static readonly string HelpAbortInfo = @"P-Keys
 
 Author: Pan
-Version: 0.0.2
-Date: 2024-12-04 17:00:00
+Version: 0.0.3
+Date: 2024-12-10 17:00:00
 Repository: https://github.com/panj039/p-keys.git";
-        private static readonly string DefaultConfig = @"{
-	""hotkey"": ""`"",
-	""groups"": [
-		{
-			""name"": ""test_group"",
-			""keys"": [
-				{
-					""key"": ""Q"",
-					""links"": [
-						{
-							""key"": ""CTRL""
-						},
-						{
-							""key"": ""C""
-						}
-					]
-				},
-				{
-					""key"": ""W"",
-					""links"": [
-						{
-							""key"": ""CTRL""
-						},
-						{
-							""key"": ""V""
-						}
-					]
-				}
-			]
-		}
-	]
-}";
-        private static readonly string Assets = "assets";
-        private static readonly string ConfigName = "config.json";
-        public static Keys HotKey;
+        private static readonly string DefaultConfig = @"hotkey: ""`"" # keep empty to disable hotkey
+# keydelay: 50 # key delay in ms(default 50)
+groups:
+  example_group: # group name
+    q: # copy
+      - key: ""CTrL""
+      - key: ""C""
+    W: # paste
+      - key: ""ctrl""
+      - key: ""v""
+    e: # mouse right click
+      - key: ""rbutton""
+    r: # mouse double click
+      - key: ""lbutton""
+      - key: ""lbutton""";
+        public static readonly int KeyDelayDefault = 50;
+        public static KeyConfig HotKey;
+        public static int KeyDelay = KeyDelayDefault;
         public static List<KeysGroup> Groups = new List<KeysGroup>();
-        public static Dictionary<string, KeysGroup> DGroups = new Dictionary<string, KeysGroup>();
         public static void Load()
         {
             try
@@ -70,54 +47,63 @@ Repository: https://github.com/panj039/p-keys.git";
                 TryCreateConfig();
 
                 string configPath = GetConfigPath();
-                string jsonContent = File.ReadAllText(configPath);
-                var configData = JsonConvert.DeserializeObject<ConfigData>(jsonContent);
-                HotKey = KKey(configData.HotKey);
-                Groups = configData.Groups;
-
-                DGroups.Clear();
-                foreach (KeysGroup keyGroup in Groups)
+                using (var reader = new StreamReader(configPath))
                 {
-                    keyGroup.Tidy();
-                    DGroups[keyGroup.Name] = keyGroup;
+                    var deserializer = new DeserializerBuilder().Build();
+                    var configData = deserializer.Deserialize<Dictionary<string, object>>(reader);
+                    HotKey = KeysConfig.Key(configData["hotkey"] as string);
+                    if (configData.ContainsKey("keydelay"))
+                    {
+                        KeyDelay = Convert.ToInt32(configData["keydelay"]);
+                    }
+                    else
+                    {
+                        KeyDelay = KeyDelayDefault;
+                    }
+                    var groups = configData["groups"] as Dictionary<object, object>;
+                    Groups.Clear();
+                    foreach (var group in groups)
+                    {
+                        Groups.Add(new KeysGroup(group.Key as string, group.Value as Dictionary<object, object>));
+                    }
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error reading or parsing the JSON file: {ex.Message}");
+                MessageBox.Show($"Error reading or parsing the JSON file: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        public static void Save()
-        {
-            if (Groups.Count == 0)
-            {
-                return;
-            }
+        //public static void Save()
+        //{
+        //    if (Groups.Count == 0)
+        //    {
+        //        return;
+        //    }
 
-            string configPath = GetConfigPath();
-            string assetsDirectory = Path.GetDirectoryName(configPath);
+        //    string configPath = GetConfigPath();
+        //    string assetsDirectory = Path.GetDirectoryName(configPath);
 
-            if (!Directory.Exists(assetsDirectory))
-            {
-                Directory.CreateDirectory(assetsDirectory);
-            }
+        //    if (!Directory.Exists(assetsDirectory))
+        //    {
+        //        Directory.CreateDirectory(assetsDirectory);
+        //    }
 
-            var configData = new ConfigData();
-            configData.HotKey = SKey(HotKey);
-            configData.Groups = Groups;
-            string jsonContent = JsonConvert.SerializeObject(configData, Formatting.Indented);
+        //    var configData = new ConfigData();
+        //    configData.HotKey = SKey(HotKey);
+        //    configData.groups = Groups;
+        //    string jsonContent = JsonConvert.SerializeObject(configData, Formatting.Indented);
 
-            try
-            {
-                File.WriteAllText(configPath, jsonContent);
-                Console.WriteLine($"Save config to file: {configPath} done!");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Fail to Save Config File In: {configPath}, error: {ex.Message}");
-            }
-        }
+        //    try
+        //    {
+        //        File.WriteAllText(configPath, jsonContent);
+        //        Console.WriteLine($"Save config to file: {configPath} done!");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Console.WriteLine($"Fail to Save Config File In: {configPath}, error: {ex.Message}");
+        //    }
+        //}
 
         public static void Open()
         {
@@ -131,26 +117,6 @@ Repository: https://github.com/panj039/p-keys.git";
             {
                 MessageBox.Show($"Open config fail: {e.Message}.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        }
-
-        public static string SKey(Keys key)
-        {
-            if (KeysConfig.KKeys.TryGetValue(key, out var k))
-            {
-                return k.Key;
-            }
-
-            return "unknown";
-        }
-
-        public static Keys KKey(string c)
-        {
-            c = c.ToLower();
-            if (KeysConfig.SKeys.TryGetValue(c, out var k))
-            {
-                return k.KeyCode;
-            }
-            return Keys.Oemtilde;
         }
 
         private static string GetConfigPath()

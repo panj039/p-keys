@@ -80,7 +80,7 @@ namespace P_Keys
                 ui_message.Message = $"Key `{key}` Pressed";
 
                 // 按下热键(默认`)键开启/关闭功能
-                if (key == Config.HotKey) // 反引号键 Keys.Oemtilde
+                if (key == (Config.HotKey?.KKey ?? Keys.None)) // 反引号键 Keys.Oemtilde
                 {
                     ui_hotkey.Check = !ui_hotkey.Check;
                     return (IntPtr)1;  // 返回1，表示此事件已被处理
@@ -94,21 +94,13 @@ namespace P_Keys
                     {
                         foreach (var link in keysData.Links)
                         {
-                            VirtualKeyCode vkc = VirtualKeyCode.LBUTTON;
-                            if (link.VKey(ref vkc))
-                            {
-                                vkc.Press(m_simulator, true);
-                            }
+                            link.Key.VKey.Press(m_simulator, true);
                         }
-                        m_simulator.Keyboard.Sleep(50);
+                        m_simulator.Keyboard.Sleep(Config.KeyDelay);
                         for (int i = keysData.Links.Count - 1; i >= 0; i--)
                         {
                             var link = keysData.Links[i];
-                            VirtualKeyCode vkc = VirtualKeyCode.LBUTTON;
-                            if (link.VKey(ref vkc))
-                            {
-                                vkc.Press(m_simulator, false);
-                            }
+                            link.Key.VKey.Press(m_simulator, false);
                         }
                         return (IntPtr)1; // 阻止继续传递此事件
                     }
@@ -128,7 +120,7 @@ namespace P_Keys
         private void InitComponent()
         {
             // ui_hotkey
-            ui_hotkey.HotKey = Config.SKey(Config.HotKey);
+            ui_hotkey.HotKey = Config.HotKey?.SKey ?? "";
 
             // ui_group
             ui_group.Group.DropDownStyle = ComboBoxStyle.DropDown;
@@ -162,7 +154,7 @@ namespace P_Keys
                 return;
             }
 
-            foreach (var key in m_curKeysGroup.Keys)
+            foreach (var key in m_curKeysGroup.Keys.Values)
             {
                 var ui = new UIKeysData();
                 ui.SetUITexKeysData(key);
@@ -179,7 +171,7 @@ namespace P_Keys
         private void ui_menu_config_reload_Click(object sender, EventArgs e)
         {
             Config.Load();
-            ui_hotkey.HotKey = Config.SKey(Config.HotKey);
+            ui_hotkey.HotKey = Config.HotKey?.SKey ?? "";
             ui_group.Group.DataSource = Config.Groups;
             ui_group.Group.Refresh();
         }

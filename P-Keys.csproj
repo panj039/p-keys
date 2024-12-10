@@ -62,9 +62,6 @@
     <SignManifests>false</SignManifests>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -79,12 +76,13 @@
     <Reference Include="WindowsInput, Version=1.0.6.0, Culture=neutral, PublicKeyToken=de2685b4776e9c2e, processorArchitecture=MSIL">
       <HintPath>packages\InputSimulatorPlus.1.0.7\lib\net20\WindowsInput.dll</HintPath>
     </Reference>
+    <Reference Include="YamlDotNet, Version=16.0.0.0, Culture=neutral, PublicKeyToken=ec19458f3c15af5e, processorArchitecture=MSIL">
+      <HintPath>packages\YamlDotNet.16.2.1\lib\net47\YamlDotNet.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="conf\Config.cs" />
-    <Compile Include="conf\KeysCell.cs" />
     <Compile Include="conf\KeysConfig.cs" />
-    <Compile Include="conf\KeysData.cs" />
     <Compile Include="conf\KeysGroup.cs" />
     <Compile Include="UIGroup.cs">
       <SubType>UserControl</SubType>

@@ -1,5 +1,5 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace P_Keys.conf
@@ -7,28 +7,59 @@ namespace P_Keys.conf
     internal class KeysGroup
     {
         public string Name { get; set; }
-        public List<KeysData> Keys { get; set; }
-        [JsonIgnore]
-        public Dictionary<string, KeysData> DKeys = new Dictionary<string, KeysData>();
+        public Dictionary<string, KeysData> Keys = new Dictionary<string, KeysData>();
 
-        public void Tidy()
+        public KeysGroup(string name, Dictionary<object, object> keys)
         {
-            DKeys.Clear();
-            foreach (var key in Keys)
+            Name = name;
+            Keys.Clear();
+            foreach (var key in keys)
             {
-                DKeys[key.Key.ToLower()] = key;
+                var kd = new KeysData(key.Key as string, key.Value as List<object>);
+                Keys[kd.Key.SKey] = kd;
             }
         }
 
         public KeysData GetKeysData(Keys key)
         {
-            string cKey = Config.SKey(key);
-            if (DKeys.TryGetValue(cKey.ToLower(), out KeysData valueL))
+            var k = KeysConfig.Key(key);
+            if (k == null) return null;
+            if (Keys.TryGetValue(k.SKey, out KeysData value))
             {
-                return valueL;
+                return value;
             }
 
             return null;
+        }
+    }
+
+    public class KeysData
+    {
+        public KeyConfig Key { get; set; }
+        public List<KeysCell> Links { get; set; }
+
+        public KeysData(string k, List<object> links)
+        {
+            Key = new KeyConfig(k);
+            Links = new List<KeysCell>();
+            foreach (var link in links)
+            {
+                Links.Add(new KeysCell(link as Dictionary<object, object>));
+            }
+        }
+
+        public string ToStringDescribe()
+        {
+            return $"{Key.SKey} = {string.Join(" + ", Links.Select(x => x.Key.SKey))}";
+        }
+    }
+
+    public class KeysCell
+    {
+        public KeyConfig Key { get; set; }
+        public KeysCell(Dictionary<object, object> d)
+        {
+            Key = new KeyConfig(d["key"] as string);
         }
     }
 }

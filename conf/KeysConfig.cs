@@ -5,30 +5,17 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using WindowsInput.Native;
+using YamlDotNet.Core.Tokens;
 
 namespace P_Keys.conf
 {
-    internal class KeysConfig
+    public class KeysConfig
     {
-        public KeysConfig() { }
-        public KeysConfig(string sKey, Keys kKey, VirtualKeyCode vKey) {
-            Key = sKey.ToLower();
-            KeyCode = kKey;
-            VirtualKey = vKey;
-        }
-        public string Key { get; private set; }
-        public Keys KeyCode { get; private set; }
-        public VirtualKeyCode VirtualKey { get; private set; }
-
-        public static readonly Dictionary<string, KeysConfig> SKeys;
-        public static readonly Dictionary<Keys, KeysConfig> KKeys;
-        public static readonly Dictionary<VirtualKeyCode, KeysConfig> VKeys;
-
         static KeysConfig()
         {
-            SKeys = new Dictionary<string, KeysConfig>();
-            KKeys = new Dictionary<Keys, KeysConfig>();
-            VKeys = new Dictionary<VirtualKeyCode, KeysConfig>();
+            SKeys = new Dictionary<string, KeyConfig>();
+            KKeys = new Dictionary<Keys, KeyConfig>();
+            VKeys = new Dictionary<VirtualKeyCode, KeyConfig>();
 
             // alphabet
             RegKey("A", Keys.A, VirtualKeyCode.VK_A);
@@ -74,14 +61,50 @@ namespace P_Keys.conf
             RegKey("XBUTTON2", Keys.XButton2, VirtualKeyCode.XBUTTON2);
         }
 
+        public static readonly Dictionary<string, KeyConfig> SKeys;
+        public static readonly Dictionary<Keys, KeyConfig> KKeys;
+        public static readonly Dictionary<VirtualKeyCode, KeyConfig> VKeys;
+
+        public static KeyConfig Key(string k) { if (SKeys.TryGetValue(k, out KeyConfig kc)) { return kc; } return null; }
+        public static KeyConfig Key(Keys k) { if (KKeys.TryGetValue(k, out KeyConfig kc)) { return kc; } return null; }
+        public static KeyConfig Key(VirtualKeyCode k) { if (VKeys.TryGetValue(k, out KeyConfig kc)) { return kc; } return null; }
+
         private static void RegKey(string sKey, Keys kKey, VirtualKeyCode vKey)
         {
             sKey = sKey.ToLower();
 
-            KeysConfig c = new KeysConfig(sKey, kKey, vKey);
-            SKeys[c.Key] = c;
-            KKeys[c.KeyCode] = c;
-            VKeys[c.VirtualKey] = c;
+            KeyConfig c = new KeyConfig(sKey, kKey, vKey);
+            SKeys[c.SKey] = c;
+            KKeys[c.KKey] = c;
+            VKeys[c.VKey] = c;
         }
+    }
+
+    public class KeyConfig
+    {
+
+        public KeyConfig() { }
+        public KeyConfig(string sKey, Keys kKey, VirtualKeyCode vKey) {
+            SKey = sKey.ToLower();
+            KKey = kKey;
+            VKey = vKey;
+        }
+        public KeyConfig(string sKey)
+        {
+            // not suitable for KeysConfig
+            SKey = sKey.ToLower();
+            if (KeysConfig.SKeys.TryGetValue(SKey, out KeyConfig k))
+            {
+                KKey = k.KKey;
+                VKey = k.VKey;
+            }
+            else
+            {
+                MessageBox.Show($"Unknown string key: {sKey}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        public string SKey { get; private set; }
+        public Keys KKey { get; private set; }
+        public VirtualKeyCode VKey { get; private set; }
     };
 }
