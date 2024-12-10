@@ -35,7 +35,14 @@ groups:
       - key: ""rbutton""
     r: # mouse double click
       - key: ""lbutton""
-      - key: ""lbutton""";
+      - key: ""lbutton""
+  example_group_b:
+    q:
+      - key: ""a""
+      - key: ""s""
+      - key: ""d""
+      - key: ""f""
+";
         public static readonly int KeyDelayDefault = 50;
         public static KeyConfig HotKey;
         public static int KeyDelay = KeyDelayDefault;
