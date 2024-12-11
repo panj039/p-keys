@@ -64,18 +64,18 @@
             this.ui_tex_hotkey.Margin = new System.Windows.Forms.Padding(0);
             this.ui_tex_hotkey.Name = "ui_tex_hotkey";
             this.ui_tex_hotkey.ReadOnly = true;
-            this.ui_tex_hotkey.Size = new System.Drawing.Size(78, 21);
+            this.ui_tex_hotkey.Size = new System.Drawing.Size(88, 21);
             this.ui_tex_hotkey.TabIndex = 1;
+            this.ui_tex_hotkey.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // ui_che_hotkey
             // 
-            this.ui_che_hotkey.AutoSize = true;
-            this.ui_che_hotkey.Location = new System.Drawing.Point(137, 3);
+            this.ui_che_hotkey.Location = new System.Drawing.Point(147, 3);
             this.ui_che_hotkey.Name = "ui_che_hotkey";
             this.ui_che_hotkey.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.ui_che_hotkey.Size = new System.Drawing.Size(60, 16);
+            this.ui_che_hotkey.Size = new System.Drawing.Size(50, 16);
             this.ui_che_hotkey.TabIndex = 3;
-            this.ui_che_hotkey.Text = "Switch";
+            this.ui_che_hotkey.Text = "Off";
             this.ui_che_hotkey.UseVisualStyleBackColor = true;
             this.ui_che_hotkey.CheckedChanged += new System.EventHandler(this.ui_che_hotkey_CheckedChanged);
             // 

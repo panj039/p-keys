@@ -24,7 +24,7 @@ namespace P_Keys
         {
             InitializeComponent();
             this.Icon = Properties.Resources.AppIcon;
-            this.Text = "Disable";
+            UpdateStatusLabel();
             this.Size = new System.Drawing.Size(250, 300);
             this.FormClosing += (s, e) => UnhookWindowsHookEx(m_hookId);
             m_hookId = SetHook(HookCallback);
@@ -42,7 +42,9 @@ namespace P_Keys
         // 更新状态标签
         public void UpdateStatusLabel()
         {
-            this.Text = IsFunctionEnabled ? "Enable" : "Disable";
+            var info = IsFunctionEnabled ? "On " : "Off";
+            this.Text = info;
+            ui_hotkey.CheHotKey = info;
         }
 
         // Windows API

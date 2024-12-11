@@ -26,6 +26,11 @@ namespace P_Keys
             set => ui_tex_hotkey.Text = value;
         }
 
+        public string CheHotKey
+        {
+            set => ui_che_hotkey.Text = value;
+        }
+
         public bool Check
         {
             get => ui_che_hotkey.Checked;
