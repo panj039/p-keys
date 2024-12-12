@@ -19,7 +19,7 @@ namespace P_Keys
 
 Author: Pan
 Version: 0.0.5
-Date: 2024-12-12 14:01:00
+Date: 2024-12-12 14:18:00
 Repository: https://github.com/panj039/p-keys.git";
         public static readonly string HelpHelpInfo = @"Usage:
     1. Create a group to contain key macros.
@@ -59,11 +59,14 @@ groups:
         public const string YML_Groups = "groups";
         public const string YML_Key = "key";
         public const string YML_Nest = "nest";
+        public const string YML_Nest_Max = "nest_max";
 
         public static readonly int PressDownTimeDefault = 50;
+        public static readonly int NestMaxDefault = 10;
         public static KeyConfig HotKey;
         public static int PressDownTime = PressDownTimeDefault;
         public static bool Nest = false;
+        public static int NestMax = NestMaxDefault;
         public static List<KeysGroup> Groups = new List<KeysGroup>();
         public static void Load()
         {
@@ -77,22 +80,9 @@ groups:
                     var deserializer = new DeserializerBuilder().Build();
                     var configData = deserializer.Deserialize<Dictionary<string, object>>(reader);
                     HotKey = KeysConfig.Key(configData[YML_HotKey] as string);
-                    if (configData.ContainsKey(YML_PressDownTime))
-                    {
-                        PressDownTime = Convert.ToInt32(configData[YML_PressDownTime]);
-                    }
-                    else
-                    {
-                        PressDownTime = PressDownTimeDefault;
-                    }
-                    if (configData.ContainsKey(YML_Nest))
-                    {
-                        Nest = Convert.ToBoolean(configData[YML_Nest]);
-                    }
-                    else
-                    {
-                        Nest = false;
-                    }
+                    if (configData.ContainsKey(YML_PressDownTime)) { PressDownTime = Convert.ToInt32(configData[YML_PressDownTime]); } else { PressDownTime = PressDownTimeDefault; }
+                    if (configData.ContainsKey(YML_Nest)) { Nest = Convert.ToBoolean(configData[YML_Nest]); } else { Nest = false; }
+                    if (configData.ContainsKey(YML_Nest_Max)) { NestMax = Convert.ToInt32(configData[YML_Nest_Max]); } else { NestMax = NestMaxDefault; }
                     var groups = configData[YML_Groups] as Dictionary<object, object>;
                     Groups.Clear();
                     foreach (var group in groups)
@@ -212,6 +202,7 @@ groups:
             configData[YML_HotKey] = HotKey?.SKey ?? "";
             configData[YML_PressDownTime] = PressDownTime;
             configData[YML_Nest] = Nest;
+            configData[YML_Nest_Max] = NestMax;
 
             var groups = new Dictionary<string, object>();
             foreach (var group in Groups)

@@ -50,6 +50,8 @@ You can edit it directly within the application.
 ```yaml
 hotkey: "`" # keep empty to disable hotkey
 # keydelay: 50 # key delay in ms (default 50)
+# nest: false # enable key macro calls another key macro
+# nest_max: 10 # max call depth
 groups:
   example_group: # group name
     q: # copy

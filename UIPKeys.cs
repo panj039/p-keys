@@ -100,7 +100,7 @@ namespace P_Keys
                     if (keysData != null)
                     {
                         //Debug.WriteLine("in");
-                        if (Config.Nest || (NestDepth == 0))
+                        if ((NestDepth == 0) || (Config.Nest && (NestDepth < Config.NestMax)))
                         {
                             NestDepth++;
                             foreach (var link in keysData.Links)
