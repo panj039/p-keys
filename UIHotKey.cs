@@ -37,6 +37,19 @@ namespace P_Keys
             }
         }
 
+        public bool CheckNest
+        {
+            get => ui_che_nest.Checked;
+            set
+            {
+                if (value == ui_che_nest.Checked)
+                {
+                    return;
+                }
+                ui_che_nest.Checked = value;
+            }
+        }
+
         private void ui_che_hotkey_CheckedChanged(object sender, EventArgs e)
         {
             this.Root.UpdateStatusLabel();
@@ -81,6 +94,13 @@ namespace P_Keys
                     Config.InfoBox($"Change hotkey from `{hotKey}` to `{userInput}`.");
                 }
             }
+        }
+
+        private void ui_che_nest_CheckedChanged(object sender, EventArgs e)
+        {
+            if (Config.Nest == CheckNest) { return; }
+            Config.Nest = CheckNest;
+            Config.Save();
         }
     }
 }

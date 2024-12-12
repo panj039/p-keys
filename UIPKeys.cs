@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography;
 using System.Windows.Forms;
 using WindowsInput;
 using static P_Keys.UIPKeys;
@@ -83,6 +84,7 @@ namespace P_Keys
 
                 // update message
                 ui_message.Message = $"Key `{key}` Pressed";
+                //Debug.WriteLine($"Key `{key}` Pressed");
 
                 // 按下热键(默认`)键开启/关闭功能
                 if (key == (Config.HotKey?.KKey ?? Keys.None)) // 反引号键 Keys.Oemtilde
@@ -97,17 +99,24 @@ namespace P_Keys
                     var keysData = m_curKeysGroup?.GetKeysData(key);
                     if (keysData != null)
                     {
-                        foreach (var link in keysData.Links)
+                        //Debug.WriteLine("in");
+                        if (Config.Nest || (NestDepth == 0))
                         {
-                            link.Key.VKey.Press(m_simulator, true);
+                            NestDepth++;
+                            foreach (var link in keysData.Links)
+                            {
+                                link.Key.VKey.Press(m_simulator, true);
+                            }
+                            m_simulator.Keyboard.Sleep(Config.PressDownTime);
+                            for (int i = keysData.Links.Count - 1; i >= 0; i--)
+                            {
+                                var link = keysData.Links[i];
+                                link.Key.VKey.Press(m_simulator, false);
+                            }
+                            NestDepth--;
+                            //Debug.WriteLine("out");
+                            return (IntPtr)1; // 阻止继续传递此事件
                         }
-                        m_simulator.Keyboard.Sleep(Config.PressDownTime);
-                        for (int i = keysData.Links.Count - 1; i >= 0; i--)
-                        {
-                            var link = keysData.Links[i];
-                            link.Key.VKey.Press(m_simulator, false);
-                        }
-                        return (IntPtr)1; // 阻止继续传递此事件
                     }
                 }
             }
@@ -125,6 +134,7 @@ namespace P_Keys
             Config.Load();
 
             ui_hotkey.HotKey = Config.HotKey?.SKey ?? "";
+            ui_hotkey.CheckNest = Config.Nest;
 
             ui_group.Group.DataSource = null;
             ui_group.Group.DataSource = Config.Groups;
@@ -142,12 +152,14 @@ namespace P_Keys
         {
             base.OnLoad(e);
             UpdateStatusLabel();
+            this.ActiveControl = ui_group;
         }
 
         private void InitComponent()
         {
             // ui_hotkey
             ui_hotkey.HotKey = Config.HotKey?.SKey ?? "";
+            ui_hotkey.CheckNest = Config.Nest;
 
             // ui_group
             ui_group.Group.DropDownStyle = ComboBoxStyle.DropDown;
@@ -167,6 +179,8 @@ namespace P_Keys
         }
 
         public IntPtr HookID { get => m_hookId; }
+
+        private int NestDepth { get; set; }
 
         private void OnUIComGroup(object sender, EventArgs e)
         {

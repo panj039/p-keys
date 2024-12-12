@@ -15,7 +15,7 @@ Key macro functionality.
 - [x] Enable or disable functionality manually.
 - [x] Enable or disable functionality using a hotkey.
 - [x] Display currently pressed keys.
-- [x] Support nested key macros, e.g., `a=b, b=c` results in `a=c`.
+- [x] Support nested key macros, e.g., `a=b, b=c` results in `a=c`. Can be turned on or off by setting 'Nest'.
 - [x] Mouse clicks can be triggered by keyboard keys, enabling the simulation of mouse click actions.
 - [x] Right-clicking in any input field opens a context menu for `Edit/Delete/Rename/Copy` operations.
 

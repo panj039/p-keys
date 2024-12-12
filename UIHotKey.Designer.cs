@@ -32,9 +32,10 @@
             this.ui_flo_layout = new System.Windows.Forms.FlowLayoutPanel();
             this.ui_lab_hotkey = new System.Windows.Forms.Label();
             this.ui_tex_hotkey = new System.Windows.Forms.TextBox();
-            this.ui_che_hotkey = new System.Windows.Forms.CheckBox();
             this.ui_con_menu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.ui_con_menu_edit = new System.Windows.Forms.ToolStripMenuItem();
+            this.ui_che_hotkey = new System.Windows.Forms.CheckBox();
+            this.ui_che_nest = new System.Windows.Forms.CheckBox();
             this.ui_flo_layout.SuspendLayout();
             this.ui_con_menu.SuspendLayout();
             this.SuspendLayout();
@@ -45,6 +46,7 @@
             this.ui_flo_layout.Controls.Add(this.ui_lab_hotkey);
             this.ui_flo_layout.Controls.Add(this.ui_tex_hotkey);
             this.ui_flo_layout.Controls.Add(this.ui_che_hotkey);
+            this.ui_flo_layout.Controls.Add(this.ui_che_nest);
             this.ui_flo_layout.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ui_flo_layout.Location = new System.Drawing.Point(0, 0);
             this.ui_flo_layout.Name = "ui_flo_layout";
@@ -69,20 +71,9 @@
             this.ui_tex_hotkey.Margin = new System.Windows.Forms.Padding(0);
             this.ui_tex_hotkey.Name = "ui_tex_hotkey";
             this.ui_tex_hotkey.ReadOnly = true;
-            this.ui_tex_hotkey.Size = new System.Drawing.Size(88, 21);
+            this.ui_tex_hotkey.Size = new System.Drawing.Size(38, 21);
             this.ui_tex_hotkey.TabIndex = 1;
             this.ui_tex_hotkey.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // ui_che_hotkey
-            // 
-            this.ui_che_hotkey.Location = new System.Drawing.Point(147, 3);
-            this.ui_che_hotkey.Name = "ui_che_hotkey";
-            this.ui_che_hotkey.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.ui_che_hotkey.Size = new System.Drawing.Size(50, 16);
-            this.ui_che_hotkey.TabIndex = 3;
-            this.ui_che_hotkey.Text = "Off";
-            this.ui_che_hotkey.UseVisualStyleBackColor = true;
-            this.ui_che_hotkey.CheckedChanged += new System.EventHandler(this.ui_che_hotkey_CheckedChanged);
             // 
             // ui_con_menu
             // 
@@ -97,6 +88,28 @@
             this.ui_con_menu_edit.Size = new System.Drawing.Size(98, 22);
             this.ui_con_menu_edit.Text = "Edit";
             this.ui_con_menu_edit.Click += new System.EventHandler(this.ui_con_menu_edit_Click);
+            // 
+            // ui_che_hotkey
+            // 
+            this.ui_che_hotkey.Location = new System.Drawing.Point(97, 3);
+            this.ui_che_hotkey.Name = "ui_che_hotkey";
+            this.ui_che_hotkey.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.ui_che_hotkey.Size = new System.Drawing.Size(45, 16);
+            this.ui_che_hotkey.TabIndex = 3;
+            this.ui_che_hotkey.Text = "Off";
+            this.ui_che_hotkey.UseVisualStyleBackColor = true;
+            this.ui_che_hotkey.CheckedChanged += new System.EventHandler(this.ui_che_hotkey_CheckedChanged);
+            // 
+            // ui_che_nest
+            // 
+            this.ui_che_nest.Location = new System.Drawing.Point(148, 3);
+            this.ui_che_nest.Name = "ui_che_nest";
+            this.ui_che_nest.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.ui_che_nest.Size = new System.Drawing.Size(49, 16);
+            this.ui_che_nest.TabIndex = 5;
+            this.ui_che_nest.Text = "Nest";
+            this.ui_che_nest.UseVisualStyleBackColor = true;
+            this.ui_che_nest.CheckedChanged += new System.EventHandler(this.ui_che_nest_CheckedChanged);
             // 
             // UIHotKey
             // 
@@ -121,5 +134,6 @@
         private System.Windows.Forms.CheckBox ui_che_hotkey;
         private System.Windows.Forms.ContextMenuStrip ui_con_menu;
         private System.Windows.Forms.ToolStripMenuItem ui_con_menu_edit;
+        private System.Windows.Forms.CheckBox ui_che_nest;
     }
 }
