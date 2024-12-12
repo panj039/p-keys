@@ -99,6 +99,12 @@
     <Compile Include="UIHotKey.Designer.cs">
       <DependentUpon>UIHotKey.cs</DependentUpon>
     </Compile>
+    <Compile Include="UIInputForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UIInputForm.Designer.cs">
+      <DependentUpon>UIInputForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="UIMessage.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -135,6 +141,9 @@
     <EmbeddedResource Include="UIHotKey.resx">
       <DependentUpon>UIHotKey.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UIInputForm.resx">
+      <DependentUpon>UIInputForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UIMessage.resx">
       <DependentUpon>UIMessage.cs</DependentUpon>

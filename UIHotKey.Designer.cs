@@ -28,11 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.ui_flo_layout = new System.Windows.Forms.FlowLayoutPanel();
             this.ui_lab_hotkey = new System.Windows.Forms.Label();
             this.ui_tex_hotkey = new System.Windows.Forms.TextBox();
             this.ui_che_hotkey = new System.Windows.Forms.CheckBox();
+            this.ui_con_menu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.ui_con_menu_edit = new System.Windows.Forms.ToolStripMenuItem();
             this.ui_flo_layout.SuspendLayout();
+            this.ui_con_menu.SuspendLayout();
             this.SuspendLayout();
             // 
             // ui_flo_layout
@@ -59,6 +63,7 @@
             // ui_tex_hotkey
             // 
             this.ui_tex_hotkey.CausesValidation = false;
+            this.ui_tex_hotkey.ContextMenuStrip = this.ui_con_menu;
             this.ui_tex_hotkey.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ui_tex_hotkey.Location = new System.Drawing.Point(56, 0);
             this.ui_tex_hotkey.Margin = new System.Windows.Forms.Padding(0);
@@ -79,6 +84,20 @@
             this.ui_che_hotkey.UseVisualStyleBackColor = true;
             this.ui_che_hotkey.CheckedChanged += new System.EventHandler(this.ui_che_hotkey_CheckedChanged);
             // 
+            // ui_con_menu
+            // 
+            this.ui_con_menu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ui_con_menu_edit});
+            this.ui_con_menu.Name = "ui_con_menu";
+            this.ui_con_menu.Size = new System.Drawing.Size(99, 26);
+            // 
+            // ui_con_menu_edit
+            // 
+            this.ui_con_menu_edit.Name = "ui_con_menu_edit";
+            this.ui_con_menu_edit.Size = new System.Drawing.Size(98, 22);
+            this.ui_con_menu_edit.Text = "Edit";
+            this.ui_con_menu_edit.Click += new System.EventHandler(this.ui_con_menu_edit_Click);
+            // 
             // UIHotKey
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -88,6 +107,7 @@
             this.Size = new System.Drawing.Size(200, 21);
             this.ui_flo_layout.ResumeLayout(false);
             this.ui_flo_layout.PerformLayout();
+            this.ui_con_menu.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -99,5 +119,7 @@
         private System.Windows.Forms.Label ui_lab_hotkey;
         private System.Windows.Forms.TextBox ui_tex_hotkey;
         private System.Windows.Forms.CheckBox ui_che_hotkey;
+        private System.Windows.Forms.ContextMenuStrip ui_con_menu;
+        private System.Windows.Forms.ToolStripMenuItem ui_con_menu_edit;
     }
 }

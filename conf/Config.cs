@@ -18,11 +18,22 @@ namespace P_Keys
         public static readonly string HelpAbortInfo = @"P-Keys
 
 Author: Pan
-Version: 0.0.3
-Date: 2024-12-10 19:30:00
+Version: 0.0.4
+Date: 2024-12-12 11:45:00
 Repository: https://github.com/panj039/p-keys.git";
+        public static readonly string HelpHelpInfo = @"Usage:
+    1. Create a group to contain key macros.
+    2. Add a key macro to the group current selected.
+    3. Switch on (hotkey supported) to activate widget.
+    4. Press key and see it works.
+    5. Right click to the InputBox can edit it's contents.
+
+Caution:
+    1. Use Edit function may cause `CallbackOnCollectedDelegate` exception sometimes.
+    2. Becareful of key bind loop, for example: a=b; b=a.
+    3. Only keyboard available for left operator, mouse actions can only on the right side.";
         private static readonly string DefaultConfig = @"hotkey: ""`"" # keep empty to disable hotkey
-# keydelay: 50 # key delay in ms(default 50)
+# pressdowntime: 50 # key press down time in ms(default 50)
 groups:
   example_group: # group name
     q: # copy
@@ -43,9 +54,14 @@ groups:
       - key: ""d""
       - key: ""f""
 ";
-        public static readonly int KeyDelayDefault = 50;
+        public const string YML_HotKey = "hotkey";
+        public const string YML_PressDownTime = "pressdowntime";
+        public const string YML_Groups = "groups";
+        public const string YML_Key = "key";
+
+        public static readonly int PressDownTimeDefault = 50;
         public static KeyConfig HotKey;
-        public static int KeyDelay = KeyDelayDefault;
+        public static int PressDownTime = PressDownTimeDefault;
         public static List<KeysGroup> Groups = new List<KeysGroup>();
         public static void Load()
         {
@@ -58,16 +74,16 @@ groups:
                 {
                     var deserializer = new DeserializerBuilder().Build();
                     var configData = deserializer.Deserialize<Dictionary<string, object>>(reader);
-                    HotKey = KeysConfig.Key(configData["hotkey"] as string);
-                    if (configData.ContainsKey("keydelay"))
+                    HotKey = KeysConfig.Key(configData[YML_HotKey] as string);
+                    if (configData.ContainsKey(YML_PressDownTime))
                     {
-                        KeyDelay = Convert.ToInt32(configData["keydelay"]);
+                        PressDownTime = Convert.ToInt32(configData[YML_PressDownTime]);
                     }
                     else
                     {
-                        KeyDelay = KeyDelayDefault;
+                        PressDownTime = PressDownTimeDefault;
                     }
-                    var groups = configData["groups"] as Dictionary<object, object>;
+                    var groups = configData[YML_Groups] as Dictionary<object, object>;
                     Groups.Clear();
                     foreach (var group in groups)
                     {
@@ -81,36 +97,21 @@ groups:
             }
         }
 
-        //public static void Save()
-        //{
-        //    if (Groups.Count == 0)
-        //    {
-        //        return;
-        //    }
-
-        //    string configPath = GetConfigPath();
-        //    string assetsDirectory = Path.GetDirectoryName(configPath);
-
-        //    if (!Directory.Exists(assetsDirectory))
-        //    {
-        //        Directory.CreateDirectory(assetsDirectory);
-        //    }
-
-        //    var configData = new ConfigData();
-        //    configData.HotKey = SKey(HotKey);
-        //    configData.groups = Groups;
-        //    string jsonContent = JsonConvert.SerializeObject(configData, Formatting.Indented);
-
-        //    try
-        //    {
-        //        File.WriteAllText(configPath, jsonContent);
-        //        Console.WriteLine($"Save config to file: {configPath} done!");
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Console.WriteLine($"Fail to Save Config File In: {configPath}, error: {ex.Message}");
-        //    }
-        //}
+        public static void Save()
+        {
+            string configPath = GetConfigPath();
+            try
+            {
+                var serializer = new SerializerBuilder().Build();
+                var data = Build();
+                string yaml = serializer.Serialize(data);
+                File.WriteAllText(configPath, yaml);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Fail to Save Config File In: {configPath}, error: {ex.Message}.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
 
         public static void Open()
         {
@@ -124,6 +125,40 @@ groups:
             {
                 MessageBox.Show($"Open config fail: {e.Message}.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        public static KeysGroup Group(string groupName)
+        {
+            foreach (var group in Groups)
+            {
+                if (group.Name != groupName) { continue; }
+                return group;
+            }
+            return null;
+        }
+
+        public static void AddGroup(string groupName)
+        {
+            var group = new KeysGroup(groupName, new Dictionary<object, object>());
+            AddGroup(group);
+        }
+
+        public static void AddGroup(KeysGroup group)
+        {
+            Groups.Add(group);
+        }
+
+        public static void DelGroup(string groupName)
+        {
+            var g = Groups.Find(item => item.Name == groupName);
+            if (g == null) { return; }
+
+            Groups.Remove(g);
+        }
+
+        public static void InfoBox(string info, string title = "Success")
+        {
+            MessageBox.Show(info, title, MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private static string GetConfigPath()
@@ -159,6 +194,22 @@ groups:
                 MessageBox.Show($"Write config fail: {e.Message}.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Application.Exit();
             }
+        }
+
+        private static Dictionary<string, object> Build()
+        {
+            var configData = new Dictionary<string, object>();
+            configData[YML_HotKey] = HotKey?.SKey ?? "";
+            configData[YML_PressDownTime] = PressDownTime;
+
+            var groups = new Dictionary<string, object>();
+            foreach (var group in Groups)
+            {
+                groups[group.Name] = group.Build();
+            }
+            configData[YML_Groups] = groups;
+
+            return configData;
         }
     }
 

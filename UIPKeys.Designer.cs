@@ -29,6 +29,9 @@
         private void InitializeComponent()
         {
             this.ui_menu = new System.Windows.Forms.MenuStrip();
+            this.ui_menu_add = new System.Windows.Forms.ToolStripMenuItem();
+            this.ui_menu_add_group = new System.Windows.Forms.ToolStripMenuItem();
+            this.ui_menu_add_key = new System.Windows.Forms.ToolStripMenuItem();
             this.ui_menu_config = new System.Windows.Forms.ToolStripMenuItem();
             this.ui_menu_config_open = new System.Windows.Forms.ToolStripMenuItem();
             this.ui_menu_config_reload = new System.Windows.Forms.ToolStripMenuItem();
@@ -40,6 +43,7 @@
             this.ui_group = new P_Keys.UIGroup();
             this.ui_message = new P_Keys.UIMessage();
             this.ui_spl_keys = new System.Windows.Forms.Splitter();
+            this.ui_menu_help_help = new System.Windows.Forms.ToolStripMenuItem();
             this.ui_menu.SuspendLayout();
             this.ui_flow_layout_panel.SuspendLayout();
             this.SuspendLayout();
@@ -47,6 +51,7 @@
             // ui_menu
             // 
             this.ui_menu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ui_menu_add,
             this.ui_menu_config,
             this.ui_menu_help});
             this.ui_menu.Location = new System.Drawing.Point(0, 0);
@@ -54,6 +59,29 @@
             this.ui_menu.Size = new System.Drawing.Size(800, 25);
             this.ui_menu.TabIndex = 0;
             this.ui_menu.Text = "menu";
+            // 
+            // ui_menu_add
+            // 
+            this.ui_menu_add.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ui_menu_add_group,
+            this.ui_menu_add_key});
+            this.ui_menu_add.Name = "ui_menu_add";
+            this.ui_menu_add.Size = new System.Drawing.Size(44, 21);
+            this.ui_menu_add.Text = "Add";
+            // 
+            // ui_menu_add_group
+            // 
+            this.ui_menu_add_group.Name = "ui_menu_add_group";
+            this.ui_menu_add_group.Size = new System.Drawing.Size(180, 22);
+            this.ui_menu_add_group.Text = "Group";
+            this.ui_menu_add_group.Click += new System.EventHandler(this.ui_menu_add_group_Click);
+            // 
+            // ui_menu_add_key
+            // 
+            this.ui_menu_add_key.Name = "ui_menu_add_key";
+            this.ui_menu_add_key.Size = new System.Drawing.Size(180, 22);
+            this.ui_menu_add_key.Text = "Key";
+            this.ui_menu_add_key.Click += new System.EventHandler(this.ui_menu_add_key_Click);
             // 
             // ui_menu_config
             // 
@@ -83,6 +111,7 @@
             // 
             this.ui_menu_help.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ui_menu_help_all_support_keys,
+            this.ui_menu_help_help,
             this.ui_menu_help_about});
             this.ui_menu_help.Name = "ui_menu_help";
             this.ui_menu_help.Size = new System.Drawing.Size(47, 21);
@@ -122,8 +151,10 @@
             // ui_hotkey
             // 
             this.ui_hotkey.Check = false;
+            this.ui_hotkey.HotKey = "";
             this.ui_hotkey.Location = new System.Drawing.Point(3, 3);
             this.ui_hotkey.Name = "ui_hotkey";
+            this.ui_hotkey.Root = null;
             this.ui_hotkey.Size = new System.Drawing.Size(200, 21);
             this.ui_hotkey.TabIndex = 2;
             // 
@@ -132,6 +163,7 @@
             this.ui_group.AutoSize = true;
             this.ui_group.Location = new System.Drawing.Point(3, 30);
             this.ui_group.Name = "ui_group";
+            this.ui_group.Root = null;
             this.ui_group.Size = new System.Drawing.Size(203, 24);
             this.ui_group.TabIndex = 3;
             // 
@@ -151,6 +183,13 @@
             this.ui_spl_keys.Size = new System.Drawing.Size(203, 3);
             this.ui_spl_keys.TabIndex = 4;
             this.ui_spl_keys.TabStop = false;
+            // 
+            // ui_menu_help_help
+            // 
+            this.ui_menu_help_help.Name = "ui_menu_help_help";
+            this.ui_menu_help_help.Size = new System.Drawing.Size(180, 22);
+            this.ui_menu_help_help.Text = "Help";
+            this.ui_menu_help_help.Click += new System.EventHandler(this.ui_menu_help_help_Click);
             // 
             // UIPKeys
             // 
@@ -185,6 +224,10 @@
         private System.Windows.Forms.ToolStripMenuItem ui_menu_help;
         private System.Windows.Forms.ToolStripMenuItem ui_menu_help_about;
         private System.Windows.Forms.ToolStripMenuItem ui_menu_help_all_support_keys;
+        private System.Windows.Forms.ToolStripMenuItem ui_menu_add;
+        private System.Windows.Forms.ToolStripMenuItem ui_menu_add_group;
+        private System.Windows.Forms.ToolStripMenuItem ui_menu_add_key;
+        private System.Windows.Forms.ToolStripMenuItem ui_menu_help_help;
     }
 }
 
