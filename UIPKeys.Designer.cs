@@ -32,18 +32,20 @@
             this.ui_menu_add = new System.Windows.Forms.ToolStripMenuItem();
             this.ui_menu_add_group = new System.Windows.Forms.ToolStripMenuItem();
             this.ui_menu_add_key = new System.Windows.Forms.ToolStripMenuItem();
-            this.ui_menu_config = new System.Windows.Forms.ToolStripMenuItem();
-            this.ui_menu_config_open = new System.Windows.Forms.ToolStripMenuItem();
-            this.ui_menu_config_reload = new System.Windows.Forms.ToolStripMenuItem();
+            this.ui_menu_settings = new System.Windows.Forms.ToolStripMenuItem();
+            this.ui_menu_settings_open = new System.Windows.Forms.ToolStripMenuItem();
+            this.ui_menu_settings_reload = new System.Windows.Forms.ToolStripMenuItem();
+            this.ui_menu_settings_separator = new System.Windows.Forms.ToolStripSeparator();
+            this.ui_menu_settings_notification = new System.Windows.Forms.ToolStripMenuItem();
             this.ui_menu_help = new System.Windows.Forms.ToolStripMenuItem();
             this.ui_menu_help_all_support_keys = new System.Windows.Forms.ToolStripMenuItem();
+            this.ui_menu_help_help = new System.Windows.Forms.ToolStripMenuItem();
             this.ui_menu_help_about = new System.Windows.Forms.ToolStripMenuItem();
             this.ui_flow_layout_panel = new System.Windows.Forms.FlowLayoutPanel();
             this.ui_hotkey = new P_Keys.UIHotKey();
             this.ui_group = new P_Keys.UIGroup();
             this.ui_message = new P_Keys.UIMessage();
             this.ui_spl_keys = new System.Windows.Forms.Splitter();
-            this.ui_menu_help_help = new System.Windows.Forms.ToolStripMenuItem();
             this.ui_menu.SuspendLayout();
             this.ui_flow_layout_panel.SuspendLayout();
             this.SuspendLayout();
@@ -52,7 +54,7 @@
             // 
             this.ui_menu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ui_menu_add,
-            this.ui_menu_config,
+            this.ui_menu_settings,
             this.ui_menu_help});
             this.ui_menu.Location = new System.Drawing.Point(0, 0);
             this.ui_menu.Name = "ui_menu";
@@ -72,40 +74,54 @@
             // ui_menu_add_group
             // 
             this.ui_menu_add_group.Name = "ui_menu_add_group";
-            this.ui_menu_add_group.Size = new System.Drawing.Size(180, 22);
+            this.ui_menu_add_group.Size = new System.Drawing.Size(113, 22);
             this.ui_menu_add_group.Text = "Group";
             this.ui_menu_add_group.Click += new System.EventHandler(this.ui_menu_add_group_Click);
             // 
             // ui_menu_add_key
             // 
             this.ui_menu_add_key.Name = "ui_menu_add_key";
-            this.ui_menu_add_key.Size = new System.Drawing.Size(180, 22);
+            this.ui_menu_add_key.Size = new System.Drawing.Size(113, 22);
             this.ui_menu_add_key.Text = "Key";
             this.ui_menu_add_key.Click += new System.EventHandler(this.ui_menu_add_key_Click);
             // 
-            // ui_menu_config
+            // ui_menu_settings
             // 
-            this.ui_menu_config.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ui_menu_config_open,
-            this.ui_menu_config_reload});
-            this.ui_menu_config.Name = "ui_menu_config";
-            this.ui_menu_config.Size = new System.Drawing.Size(58, 21);
-            this.ui_menu_config.Text = "Config";
+            this.ui_menu_settings.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ui_menu_settings_open,
+            this.ui_menu_settings_reload,
+            this.ui_menu_settings_separator,
+            this.ui_menu_settings_notification});
+            this.ui_menu_settings.Name = "ui_menu_settings";
+            this.ui_menu_settings.Size = new System.Drawing.Size(66, 21);
+            this.ui_menu_settings.Text = "Settings";
             // 
-            // ui_menu_config_open
+            // ui_menu_settings_open
             // 
-            this.ui_menu_config_open.Name = "ui_menu_config_open";
-            this.ui_menu_config_open.ShowShortcutKeys = false;
-            this.ui_menu_config_open.Size = new System.Drawing.Size(117, 22);
-            this.ui_menu_config_open.Text = "Open";
-            this.ui_menu_config_open.Click += new System.EventHandler(this.ui_menu_config_open_Click);
+            this.ui_menu_settings_open.Name = "ui_menu_settings_open";
+            this.ui_menu_settings_open.ShowShortcutKeys = false;
+            this.ui_menu_settings_open.Size = new System.Drawing.Size(180, 22);
+            this.ui_menu_settings_open.Text = "Open";
+            this.ui_menu_settings_open.Click += new System.EventHandler(this.ui_menu_settings_open_Click);
             // 
-            // ui_menu_config_reload
+            // ui_menu_settings_reload
             // 
-            this.ui_menu_config_reload.Name = "ui_menu_config_reload";
-            this.ui_menu_config_reload.Size = new System.Drawing.Size(117, 22);
-            this.ui_menu_config_reload.Text = "Reload";
-            this.ui_menu_config_reload.Click += new System.EventHandler(this.ui_menu_config_reload_Click);
+            this.ui_menu_settings_reload.Name = "ui_menu_settings_reload";
+            this.ui_menu_settings_reload.Size = new System.Drawing.Size(180, 22);
+            this.ui_menu_settings_reload.Text = "Reload";
+            this.ui_menu_settings_reload.Click += new System.EventHandler(this.ui_menu_settings_reload_Click);
+            // 
+            // ui_menu_settings_separator
+            // 
+            this.ui_menu_settings_separator.Name = "ui_menu_settings_separator";
+            this.ui_menu_settings_separator.Size = new System.Drawing.Size(177, 6);
+            // 
+            // ui_menu_settings_notification
+            // 
+            this.ui_menu_settings_notification.Name = "ui_menu_settings_notification";
+            this.ui_menu_settings_notification.Size = new System.Drawing.Size(180, 22);
+            this.ui_menu_settings_notification.Text = "Notification";
+            this.ui_menu_settings_notification.Click += new System.EventHandler(this.ui_menu_settings_notification_Click);
             // 
             // ui_menu_help
             // 
@@ -120,14 +136,21 @@
             // ui_menu_help_all_support_keys
             // 
             this.ui_menu_help_all_support_keys.Name = "ui_menu_help_all_support_keys";
-            this.ui_menu_help_all_support_keys.Size = new System.Drawing.Size(180, 22);
+            this.ui_menu_help_all_support_keys.Size = new System.Drawing.Size(172, 22);
             this.ui_menu_help_all_support_keys.Text = "All Support Keys";
             this.ui_menu_help_all_support_keys.Click += new System.EventHandler(this.ui_menu_help_all_support_keys_Click);
+            // 
+            // ui_menu_help_help
+            // 
+            this.ui_menu_help_help.Name = "ui_menu_help_help";
+            this.ui_menu_help_help.Size = new System.Drawing.Size(172, 22);
+            this.ui_menu_help_help.Text = "Help";
+            this.ui_menu_help_help.Click += new System.EventHandler(this.ui_menu_help_help_Click);
             // 
             // ui_menu_help_about
             // 
             this.ui_menu_help_about.Name = "ui_menu_help_about";
-            this.ui_menu_help_about.Size = new System.Drawing.Size(180, 22);
+            this.ui_menu_help_about.Size = new System.Drawing.Size(172, 22);
             this.ui_menu_help_about.Text = "About";
             this.ui_menu_help_about.Click += new System.EventHandler(this.ui_menu_help_about_Click);
             // 
@@ -151,6 +174,7 @@
             // ui_hotkey
             // 
             this.ui_hotkey.Check = false;
+            this.ui_hotkey.CheckNest = false;
             this.ui_hotkey.HotKey = "";
             this.ui_hotkey.Location = new System.Drawing.Point(3, 3);
             this.ui_hotkey.Name = "ui_hotkey";
@@ -184,13 +208,6 @@
             this.ui_spl_keys.TabIndex = 4;
             this.ui_spl_keys.TabStop = false;
             // 
-            // ui_menu_help_help
-            // 
-            this.ui_menu_help_help.Name = "ui_menu_help_help";
-            this.ui_menu_help_help.Size = new System.Drawing.Size(180, 22);
-            this.ui_menu_help_help.Text = "Help";
-            this.ui_menu_help_help.Click += new System.EventHandler(this.ui_menu_help_help_Click);
-            // 
             // UIPKeys
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -213,13 +230,13 @@
         #endregion
 
         private System.Windows.Forms.MenuStrip ui_menu;
-        private System.Windows.Forms.ToolStripMenuItem ui_menu_config;
-        private System.Windows.Forms.ToolStripMenuItem ui_menu_config_open;
+        private System.Windows.Forms.ToolStripMenuItem ui_menu_settings;
+        private System.Windows.Forms.ToolStripMenuItem ui_menu_settings_open;
         private System.Windows.Forms.FlowLayoutPanel ui_flow_layout_panel;
         private UIHotKey ui_hotkey;
         private UIGroup ui_group;
         private System.Windows.Forms.Splitter ui_spl_keys;
-        private System.Windows.Forms.ToolStripMenuItem ui_menu_config_reload;
+        private System.Windows.Forms.ToolStripMenuItem ui_menu_settings_reload;
         private UIMessage ui_message;
         private System.Windows.Forms.ToolStripMenuItem ui_menu_help;
         private System.Windows.Forms.ToolStripMenuItem ui_menu_help_about;
@@ -228,6 +245,8 @@
         private System.Windows.Forms.ToolStripMenuItem ui_menu_add_group;
         private System.Windows.Forms.ToolStripMenuItem ui_menu_add_key;
         private System.Windows.Forms.ToolStripMenuItem ui_menu_help_help;
+        private System.Windows.Forms.ToolStripSeparator ui_menu_settings_separator;
+        private System.Windows.Forms.ToolStripMenuItem ui_menu_settings_notification;
     }
 }
 

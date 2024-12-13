@@ -13,7 +13,7 @@ namespace P_Keys
 
         public void SetParam(UIInputFormParam param)
         {
-            this.Icon = Properties.Resources.AppIcon;
+            this.Icon = Properties.Resources.AppIconGreen;
             this.Text = param.TitleText;
             this.ui_label.Text = param.LabelText;
             this.ui_text.Text = param.InputText;

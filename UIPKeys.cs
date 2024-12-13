@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Windows.Forms;
@@ -19,12 +20,13 @@ namespace P_Keys
         private KeysGroup m_curKeysGroup;
         private List<Control> m_curUIKeysData = new List<Control>();
         private HookProc m_hookProc;
+        private NotifyIcon m_trayIcon;
+        private ContextMenuStrip m_trayMenu;
 
         public UIPKeys()
         {
             InitializeComponent();
-            this.Icon = Properties.Resources.AppIcon;
-            UpdateStatusLabel();
+            this.Icon = Properties.Resources.AppIconPink;
             this.Size = new System.Drawing.Size(250, 300);
             this.FormClosing += (s, e) => UnhookWindowsHookEx(m_hookId);
             m_hookProc = new HookProc(HookCallback);
@@ -33,13 +35,19 @@ namespace P_Keys
             ui_group.Root = this;
 
             Config.Load();
-
             InitComponent();
+            UpdateStatusLabel();
         }
 
         public bool IsFunctionEnabled {
             get => ui_hotkey.Check;
             set => ui_hotkey.Check = value;
+        }
+
+        public bool MenuConfigNotification
+        {
+            get => ui_menu_settings_notification.Checked;
+            set => ui_menu_settings_notification.Checked = value;
         }
 
         // 更新状态标签
@@ -48,6 +56,23 @@ namespace P_Keys
             var info = IsFunctionEnabled ? "On " : "Off";
             this.Text = info;
             ui_hotkey.CheHotKey = info;
+            var checkMenuItem = m_trayMenu.Items[1] as ToolStripMenuItem;
+            //checkMenuItem.Text = $"Status: {info}";
+            checkMenuItem.Checked = IsFunctionEnabled;
+            m_trayIcon.Text = $"{Config.AppName} : {info}";
+
+            if (IsFunctionEnabled)
+            {
+                this.Icon = Properties.Resources.AppIconGreen;
+                m_trayIcon.Icon = Properties.Resources.AppIconGreen;
+            }
+            else
+            {
+                this.Icon = Properties.Resources.AppIconPink;
+                m_trayIcon.Icon = Properties.Resources.AppIconPink;
+            }
+
+            ShowBalloonNotification($"Function: {info}");
         }
 
         // Windows API
@@ -155,8 +180,32 @@ namespace P_Keys
             this.ActiveControl = ui_group;
         }
 
+        // 最小化时隐藏窗体并显示托盘图标
+        protected override void OnResize(EventArgs e)
+        {
+            base.OnResize(e);
+
+            // 如果窗体最小化，隐藏窗体并显示托盘图标
+            if (this.WindowState == FormWindowState.Minimized)
+            {
+                this.Hide();
+                //m_trayIcon.Visible = true;
+            }
+        }
+
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            base.OnFormClosing(e);
+
+            m_trayIcon.Visible = false;
+            m_trayIcon.Dispose();
+        }
+
         private void InitComponent()
         {
+            // menu
+            MenuConfigNotification = Config.Notification;
+
             // ui_hotkey
             ui_hotkey.HotKey = Config.HotKey?.SKey ?? "";
             ui_hotkey.CheckNest = Config.Nest;
@@ -176,6 +225,22 @@ namespace P_Keys
                 ui_group.Group.SelectedIndex = 0;
                 OnUIComGroup(ui_group.Group, EventArgs.Empty);
             }
+
+            // tray
+            // menu
+            m_trayMenu = new ContextMenuStrip();
+            m_trayMenu.Items.Add("Open", null, on_tray_menu_open);
+            var checkMenuItem = new ToolStripMenuItem("Enable Feature") { Checked = IsFunctionEnabled };
+            checkMenuItem.Click += on_tray_menu_switch;
+            m_trayMenu.Items.Add(checkMenuItem);
+            m_trayMenu.Items.Add("Exit", null, on_tray_menu_exit);
+            // icon
+            m_trayIcon = new NotifyIcon();
+            m_trayIcon.Text = Config.AppName;
+            m_trayIcon.Icon = Properties.Resources.AppIconPink;
+            m_trayIcon.ContextMenuStrip = m_trayMenu;
+            m_trayIcon.DoubleClick += on_tray_menu_open;
+            m_trayIcon.Visible = true;
         }
 
         public IntPtr HookID { get => m_hookId; }
@@ -207,7 +272,22 @@ namespace P_Keys
             }
         }
 
-        private void ui_menu_config_open_Click(object sender, EventArgs e)
+        private void ShowBalloonNotification(string message)
+        {
+            if (!MenuConfigNotification) { return; }
+
+            m_trayIcon.BalloonTipTitle = "Information";  // 设置通知标题
+            m_trayIcon.BalloonTipText = message;  // 设置通知文本
+            m_trayIcon.BalloonTipIcon = ToolTipIcon.Info;  // 设置图标类型（可以是信息、警告或错误）
+            m_trayIcon.ShowBalloonTip(300);  // 显示气泡通知，显示时间（毫秒）
+        }
+
+        private void ExitApplication()
+        {
+            Application.Exit();
+        }
+
+        private void ui_menu_settings_open_Click(object sender, EventArgs e)
         {
             using (var ctx = new HookContext(this))
             {
@@ -215,7 +295,7 @@ namespace P_Keys
             }
         }
 
-        private void ui_menu_config_reload_Click(object sender, EventArgs e)
+        private void ui_menu_settings_reload_Click(object sender, EventArgs e)
         {
             using (var ctx = new HookContext(this))
             {
@@ -317,6 +397,30 @@ namespace P_Keys
 
                 Config.InfoBox($"Key `{kdN.ToStringDescribe()}` added to group `{group.Name}`.");
             }
+        }
+
+        private void on_tray_menu_open(object sender, EventArgs e)
+        {
+            this.Show();
+            this.WindowState = FormWindowState.Normal;
+            //m_trayIcon.Visible = false;
+        }
+
+        private void on_tray_menu_switch(object sender, EventArgs e)
+        {
+            IsFunctionEnabled = !IsFunctionEnabled;
+        }
+
+        private void on_tray_menu_exit(object sender, EventArgs e)
+        {
+            ExitApplication();
+        }
+
+        private void ui_menu_settings_notification_Click(object sender, EventArgs e)
+        {
+            MenuConfigNotification = !MenuConfigNotification;
+            Config.Notification = MenuConfigNotification;
+            Config.Save();
         }
     }
 

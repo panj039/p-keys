@@ -18,6 +18,7 @@
 - [x] 按键宏嵌套, 如: `a=b, b=c`, 则`a=c`, 可通过设置`Nest`开启或关闭
 - [x] 鼠标点击触发, 通过键盘按键可以触发鼠标按键点击操作
 - [x] 可在所有输入框中点击右键, 进行对应项目的`编辑/删除/重命名/复制`等操作
+- [x] 托盘图标, 菜单, 通知
 
 ## 界面说明
 
@@ -26,17 +27,14 @@
 - `Add`, 新增
   - `Group`, 新增分组
   - `Key`, 新增按键宏
-- `Config`, 配置文件
+- `Settings`, 配置文件
   - `Open`, 使用本地应用打开配置文件
   - `Reload`, 手动读取本地配置文件
+  - `Notification`, 托盘通知
 - `Help`, 帮助说明
   - `All Support Keys`, 当前应用所有支持按键
   - `Help`, 使用帮助和当前已知的一些问题
   - `Abort`, 应用版本信息
-
-## 已知问题
-
-- 增加界面编辑功能后, 可能会出现`CallbackOnCollectedDelegate`报错, 暂时没有查明问题产生的原因, `v0.0.3`版本没有这个问题
 
 ## 配置文件
 
@@ -49,9 +47,10 @@
 
 ```yaml
 hotkey: "`" # keep empty to disable hotkey
-# keydelay: 50 # key delay in ms(default 50)
+# pressdowntime: 50 # key delay in ms(default 50)
 # nest: false # enable key macro calls another key macro
 # nest_max: 10 # max call depth
+# notification: true # enable tray notification(default true)
 groups:
   example_group: # group name
     q: # copy

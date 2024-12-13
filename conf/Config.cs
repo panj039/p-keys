@@ -18,8 +18,8 @@ namespace P_Keys
         public static readonly string HelpAbortInfo = @"P-Keys
 
 Author: Pan
-Version: 0.0.5
-Date: 2024-12-12 14:18:00
+Version: 0.0.6
+Date: 2024-12-13 10:05:00
 Repository: https://github.com/panj039/p-keys.git";
         public static readonly string HelpHelpInfo = @"Usage:
     1. Create a group to contain key macros.
@@ -29,9 +29,8 @@ Repository: https://github.com/panj039/p-keys.git";
     5. Right click to the InputBox can edit it's contents.
 
 Caution:
-    1. Use Edit function may cause `CallbackOnCollectedDelegate` exception sometimes.
-    2. Becareful of key bind loop, for example: a=b; b=a. Use `Nest` to switch this function.
-    3. Only keyboard available for left operator, mouse actions can only on the right side.";
+    1. Becareful of key bind loop, for example: a=b; b=a. Use `Nest` to switch this function.
+    2. Only keyboard available for left operator, mouse actions can only on the right side.";
         private static readonly string DefaultConfig = @"hotkey: ""`"" # keep empty to disable hotkey
 # pressdowntime: 50 # key press down time in ms(default 50)
 groups:
@@ -60,6 +59,7 @@ groups:
         public const string YML_Key = "key";
         public const string YML_Nest = "nest";
         public const string YML_Nest_Max = "nest_max";
+        public const string YML_Notification = "notification";
 
         public static readonly int PressDownTimeDefault = 50;
         public static readonly int NestMaxDefault = 10;
@@ -67,6 +67,7 @@ groups:
         public static int PressDownTime = PressDownTimeDefault;
         public static bool Nest = false;
         public static int NestMax = NestMaxDefault;
+        public static bool Notification = true;
         public static List<KeysGroup> Groups = new List<KeysGroup>();
         public static void Load()
         {
@@ -83,6 +84,7 @@ groups:
                     if (configData.ContainsKey(YML_PressDownTime)) { PressDownTime = Convert.ToInt32(configData[YML_PressDownTime]); } else { PressDownTime = PressDownTimeDefault; }
                     if (configData.ContainsKey(YML_Nest)) { Nest = Convert.ToBoolean(configData[YML_Nest]); } else { Nest = false; }
                     if (configData.ContainsKey(YML_Nest_Max)) { NestMax = Convert.ToInt32(configData[YML_Nest_Max]); } else { NestMax = NestMaxDefault; }
+                    if (configData.ContainsKey(YML_Notification)) { Notification = Convert.ToBoolean(configData[YML_Notification]); } else { Notification = true; }
                     var groups = configData[YML_Groups] as Dictionary<object, object>;
                     Groups.Clear();
                     foreach (var group in groups)
@@ -192,7 +194,6 @@ groups:
             {
                 //Console.WriteLine($"Write config fail: {e.Message}.");
                 MessageBox.Show($"Write config fail: {e.Message}.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Application.Exit();
             }
         }
 
@@ -203,6 +204,7 @@ groups:
             configData[YML_PressDownTime] = PressDownTime;
             configData[YML_Nest] = Nest;
             configData[YML_Nest_Max] = NestMax;
+            configData[YML_Notification] = Notification;
 
             var groups = new Dictionary<string, object>();
             foreach (var group in Groups)

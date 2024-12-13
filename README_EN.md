@@ -18,6 +18,7 @@ Key macro functionality.
 - [x] Support nested key macros, e.g., `a=b, b=c` results in `a=c`. Can be turned on or off by setting 'Nest'.
 - [x] Mouse clicks can be triggered by keyboard keys, enabling the simulation of mouse click actions.
 - [x] Right-clicking in any input field opens a context menu for `Edit/Delete/Rename/Copy` operations.
+- [x] Tray-Icon, Menu, Notification
 
 ## UI Description
 
@@ -26,17 +27,14 @@ Key macro functionality.
 - `Add`, Add new items
   - `Group`, Add a new group
   - `Key`, Add a new key macro
-- `Config`, Configuration file
+- `Settings`, Configuration file
   - `Open`, Open the configuration file with a local application
   - `Reload`, Manually reload the local configuration file
+  - `Notification`, Tray-Icon notification
 - `Help`, Help menu
   - `All Support Keys`, List all supported keys in the current application
   - `Help`, Usage guide and known issues
   - `About`, Application version information
-
-## Known Issues
-
-- After adding the interface editing feature, a `CallbackOnCollectedDelegate` error may occur. The cause of this issue is currently unknown. Version `v0.0.3` does not have this problem.
 
 ## Configuration File
 
@@ -49,9 +47,10 @@ You can edit it directly within the application.
 
 ```yaml
 hotkey: "`" # keep empty to disable hotkey
-# keydelay: 50 # key delay in ms (default 50)
+# pressdowntime: 50 # key delay in ms (default 50)
 # nest: false # enable key macro calls another key macro
 # nest_max: 10 # max call depth
+# notification: true # enable tray notification(default true)
 groups:
   example_group: # group name
     q: # copy
